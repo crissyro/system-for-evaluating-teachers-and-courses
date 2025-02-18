@@ -1,2 +1,2 @@
-# -bot-with-a-system-for-evaluating-teachers-and-courses
- Bot with a system for evaluating teachers and courses, system modeling course work 
+# system-for-evaluating-teachers-and-courses
+ System for evaluating teachers and courses, system modeling course work 
