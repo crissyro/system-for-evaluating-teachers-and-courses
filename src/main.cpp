@@ -9,8 +9,6 @@
 #include <map>
 #include <iomanip>
 
-namespace fs = std::filesystem;
-
 #define RESET "\033[0m"
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -21,14 +19,26 @@ namespace fs = std::filesystem;
 #define BOLD "\033[1m"
 #define UNDERLINE "\033[4m"
 
+namespace fs = std::filesystem;
+
 class Course {
-public:
+
+private:
     int id;
     std::string name;
     std::string institute;
 
+public:
     Course(int id, const std::string& name, const std::string& institute)
         : id(id), name(name), institute(institute) {}
+
+    inline const int getId() const { return id; }
+    inline const std::string& getName() const { return name; }
+    inline const std::string& getInstitute() const { return institute; }
+
+    inline void setId(const int id_) { this->id = id_; };
+    inline void setName(const std::string& name_) { this->name = name_; };
+    inline void setInstitute(const std::string& institute_) { this->institute = institute_; };
 };
 
 class Teacher {
@@ -43,6 +53,7 @@ public:
 };
 
 class Database {
+
 private:
     std::string baseDir = "database";
     const std::string adminPassword = "admin123";
@@ -175,7 +186,7 @@ public:
     bool courseExists(int courseId) {
         auto courses = getAllCourses();
         return std::any_of(courses.begin(), courses.end(),
-            [courseId](const Course& c) { return c.id == courseId; });
+            [courseId](const Course& c) { return c.getId() == courseId; });
     }
 
     bool teacherExists(int teacherId) {
@@ -274,6 +285,8 @@ public:
 };
 
 class AdminMenu {
+
+private:
     Database& db;
     
     void printHeader(const std::string& text) {
@@ -284,9 +297,9 @@ class AdminMenu {
         auto courses = db.getAllCourses();
         printHeader("Список курсов:");
         for (const auto& c : courses) {
-            std::cout << " " << YELLOW << std::setw(3) << c.id << RESET
-                      << " | " << std::left << std::setw(30) << c.name 
-                      << " | " << c.institute << "\n";
+            std::cout << " " << YELLOW << std::setw(3) << c.getId() << RESET
+                      << " | " << std::left << std::setw(30) << c.getName() 
+                      << " | " << c.getInstitute() << "\n";
         }
     }
 
@@ -302,7 +315,7 @@ class AdminMenu {
     }
 
     void showAllRatings() {
-        auto ratings = db.getAllRatings();
+         auto ratings = db.getAllRatings();
         auto courses = db.getAllCourses();
         auto teachers = db.getAllTeachers();
 
@@ -320,15 +333,16 @@ class AdminMenu {
         }
 
         printHeader("Статистика оценок");
+
         std::cout << UNDERLINE << "Курсы:" << RESET << "\n";
         for (const auto& [id, stats] : courseStats) {
             auto it = std::find_if(courses.begin(), courses.end(), 
-                [id](const Course& c) { return c.id == id; });
+                [id](const Course& c) { return c.getId() == id; });
             if (it != courses.end()) {
                 double avg = static_cast<double>(stats.first) / stats.second;
-                std::cout << " " << std::left << std::setw(30) << it->name 
-                          << " | " << GREEN << "Средняя: " << std::fixed << std::setprecision(1) << avg
-                          << RESET << " | " << BLUE << "Оценок: " << stats.second << RESET << "\n";
+                std::cout << " " << std::left << std::setw(30) << it->getName() 
+                        << " | " << GREEN << "Средняя: " << std::fixed << std::setprecision(1) << avg
+                        << RESET << " | " << BLUE << "Оценок: " << stats.second << RESET << "\n";
             }
         }
 
@@ -405,25 +419,31 @@ public:
 };
 
 class RatingMenu {
+
+private:
     Database& db;
     int studentId;
 
-    void printHeader(const std::string& text) {
+    inline void printHeader(const std::string& text) {
         std::cout << BOLD << CYAN << "\n" << text << RESET << "\n";
     }
 
-    void showCourses() {
+    inline void showCourses() {
         auto courses = db.getAllCourses();
+
         printHeader("Доступные курсы:");
+
         for (const auto& c : courses) {
-            std::cout << " " << YELLOW << std::setw(3) << c.id << RESET
-                      << " | " << c.name << " (" << c.institute << ")\n";
+            std::cout << " " << YELLOW << std::setw(3) << c.getId() << RESET
+                      << " | " << c.getName() << " (" << c.getInstitute() << ")\n";
         }
     }
 
-    void showTeachers() {
+    inline void showTeachers() {
         auto teachers = db.getAllTeachers();
+
         printHeader("Доступные преподаватели:");
+
         for (const auto& t : teachers) {
             std::cout << " " << YELLOW << std::setw(3) << t.id << RESET
                       << " | " << t.fio << " (" << t.department << ")\n";
@@ -441,9 +461,9 @@ class RatingMenu {
         std::cout << UNDERLINE << "Курсы:" << RESET << "\n";
         for (const auto& rating : courseRatings) {
             auto it = std::find_if(courses.begin(), courses.end(), 
-                [rating](const Course& c) { return c.id == rating.targetId; });
+                [rating](const Course& c) { return c.getId() == rating.targetId; });
             if (it != courses.end()) {
-                std::cout << " • " << std::left << std::setw(25) << it->name
+                std::cout << " • " << std::left << std::setw(25) << it->getName()
                           << " [" << YELLOW << rating.rating << "/5" << RESET << "]\n";
             }
         }
@@ -526,7 +546,7 @@ public:
 class RegistrationMenu {
     Database& db;
 
-    void printHeader(const std::string& text) {
+    inline void printHeader(const std::string& text) {
         std::cout << BOLD << CYAN << "\n" << text << RESET << "\n";
     }
 
@@ -559,7 +579,7 @@ public:
 class MainMenu {
     Database db;
     
-    void adminLogin() {
+    inline void adminLogin() {
         std::string password;
         std::cout << "Введите пароль администратора: ";
         std::getline(std::cin, password);
