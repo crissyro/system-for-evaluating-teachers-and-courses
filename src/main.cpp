@@ -42,14 +42,27 @@ public:
 };
 
 class Teacher {
-public:
+
+private:
     int id;
     std::string fio;
     std::string institute;
     std::string department;
 
+public:
+
     Teacher(int id, const std::string& fio, const std::string& institute, const std::string& department)
         : id(id), fio(fio), institute(institute), department(department) {}
+
+    inline const int getId() const { return id; }
+    inline const std::string& getFio() const { return fio; }
+    inline const std::string& getInstitute() const { return institute; }
+    inline const std::string& getDepartment() const { return department; }
+
+    inline void setId(const int id_) { this->id = id_; };
+    inline void setFio(const std::string& fio_) { this->fio = fio_; };
+    inline void setInstitute(const std::string& institute_) { this->institute = institute_; };
+    inline void setDepartment(const std::string& department_) { this->department = department_; };
 };
 
 class Database {
@@ -192,7 +205,7 @@ public:
     bool teacherExists(int teacherId) {
         auto teachers = getAllTeachers();
         return std::any_of(teachers.begin(), teachers.end(),
-            [teacherId](const Teacher& t) { return t.id == teacherId; });
+            [teacherId](const Teacher& t) { return t.getId() == teacherId; });
     }
 
     bool addCourseRating(int studentId, int courseId, int rating) {
@@ -307,10 +320,10 @@ private:
         auto teachers = db.getAllTeachers();
         printHeader("Список преподавателей:");
         for (const auto& t : teachers) {
-            std::cout << " " << YELLOW << std::setw(3) << t.id << RESET
-                      << " | " << std::left << std::setw(25) << t.fio 
-                      << " | " << std::setw(15) << t.department
-                      << " | " << t.institute << "\n";
+            std::cout << " " << YELLOW << std::setw(3) << t.getId() << RESET
+                      << " | " << std::left << std::setw(25) << t.getFio() 
+                      << " | " << std::setw(15) << t.getDepartment()
+                      << " | " << t.getInstitute() << "\n";
         }
     }
 
@@ -349,10 +362,10 @@ private:
         std::cout << UNDERLINE << "\nПреподаватели:" << RESET << "\n";
         for (const auto& [id, stats] : teacherStats) {
             auto it = std::find_if(teachers.begin(), teachers.end(), 
-                [id](const Teacher& t) { return t.id == id; });
+                [id](const Teacher& t) { return t.getId() == id; });
             if (it != teachers.end()) {
                 double avg = static_cast<double>(stats.first) / stats.second;
-                std::cout << " " << std::left << std::setw(25) << it->fio 
+                std::cout << " " << std::left << std::setw(25) << it->getFio() 
                           << " | " << GREEN << "Средняя: " << std::fixed << std::setprecision(1) << avg
                           << RESET << " | " << BLUE << "Оценок: " << stats.second << RESET << "\n";
             }
@@ -445,8 +458,8 @@ private:
         printHeader("Доступные преподаватели:");
 
         for (const auto& t : teachers) {
-            std::cout << " " << YELLOW << std::setw(3) << t.id << RESET
-                      << " | " << t.fio << " (" << t.department << ")\n";
+            std::cout << " " << YELLOW << std::setw(3) << t.getId() << RESET
+                      << " | " << t.getFio() << " (" << t.getDepartment() << ")\n";
         }
     }
 
@@ -471,9 +484,9 @@ private:
         std::cout << UNDERLINE << "\nПреподаватели:" << RESET << "\n";
         for (const auto& rating : teacherRatings) {
             auto it = std::find_if(teachers.begin(), teachers.end(), 
-                [rating](const Teacher& t) { return t.id == rating.targetId; });
+                [rating](const Teacher& t) { return t.getId() == rating.targetId; });
             if (it != teachers.end()) {
-                std::cout << " • " << std::left << std::setw(25) << it->fio
+                std::cout << " • " << std::left << std::setw(25) << it->getFio()
                           << " [" << YELLOW << rating.rating << "/5" << RESET << "]\n";
             }
         }
