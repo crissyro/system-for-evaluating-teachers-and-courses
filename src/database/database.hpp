@@ -7,6 +7,7 @@
 #include <sstream>
 #include <filesystem>
 #include <algorithm>
+#include <sqlite3.h>
 
 #include "../classes/course.hpp"
 #include "../classes/teacher.hpp"
