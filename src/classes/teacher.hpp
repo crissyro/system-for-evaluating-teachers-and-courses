@@ -5,6 +5,7 @@
 namespace teacher {
 
 class Teacher {
+private:
     int id;
     std::string lastName;
     std::string firstName;
