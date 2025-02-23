@@ -4,7 +4,7 @@
 
 namespace validation {
 
-class UniversityStudent {
+class UniversityValidation {
 
 };
 
