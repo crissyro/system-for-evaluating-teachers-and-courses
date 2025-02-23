@@ -12,17 +12,18 @@ public:
     explicit StudentDB(const Database& database) : db(database.getHandle()) {
         const char* sql = R"(
             CREATE TABLE IF NOT EXISTS students (
-                id INT PRIMARY KEY AUTOINCREMENT,
-                last_name VARCHAR(128) NOT NULL,
-                first_name VARCHAR(64) NOT NULL,
-                patronymic VARCHAR(128),
-                institute VARCHAR(256) NOT NULL,
-                department VARCHAR(256) NOT NULL,
-                course UNSIGNED SMALLINT NOT NULL,
-                group_name VARCHAR(8) NOT NULL,
-                record_book UNSIGNED INT UNIQUE NOT NULL
+                id INTEGER PRIMARY KEY AUTOINCREMENT, 
+                last_name TEXT NOT NULL,
+                first_name TEXT NOT NULL,
+                patronymic TEXT,
+                institute TEXT NOT NULL,
+                department TEXT NOT NULL,
+                course INTEGER NOT NULL,
+                group_name TEXT NOT NULL,
+                record_book TEXT UNIQUE NOT NULL
             );
         )";
+        
         Database::Statement stmt(db, sql);
         sqlite3_step(stmt);
     }
@@ -48,13 +49,16 @@ public:
         if(sqlite3_step(stmt) != SQLITE_DONE) {
             throw std::runtime_error(sqlite3_errmsg(db));
         }
+
         return sqlite3_last_insert_rowid(db);
     }
 
     bool exists(const std::string& recordBook) {
         const char* sql = "SELECT 1 FROM students WHERE record_book = ?;";
+
         Database::Statement stmt(db, sql);
         stmt.bind(1, recordBook);
+
         return sqlite3_step(stmt) == SQLITE_ROW;
     }
 };

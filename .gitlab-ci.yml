@@ -1,0 +1,40 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build-job:
+  stage: build
+  tags:
+    - build
+  script:
+    - cd src/
+    - cd ../
+  artifacts:
+    paths:
+      - src/
+      - src/
+    expire_in: 30 days
+  only:
+    - develop
+
+test-job:
+  stage: test
+  tags:
+    - test
+  script:
+    - cd src/
+
+  only:
+    - develop
+
+deploy-job:
+  stage: deploy
+  tags:
+    - deploy
+  script:
+   - cd src/
+  when: manual
+  allow_failure: false
+  only:
+    - develop

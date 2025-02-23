@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -Wextra -Werror -std=c++17 -g 
+CFLAGS = -Wall -Wextra -Werror -std=c++17 -g -Iinclude -lsqlite3
 GCOV_FLAGS = --coverage -fprofile-arcs -ftest-coverage
 GTEST_FLAGS = -lgtest -lgtest_main -pthread
 
