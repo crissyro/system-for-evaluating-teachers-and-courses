@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iostream>
-
+#include "colors.hpp"
 #include "../database/database.hpp"
 #include "../database/student_db.hpp"
 #include "../classes/student.hpp"
@@ -17,8 +17,10 @@ public:
         : db(database), studentDB(database) {}
 
     int registerStudent() {
-        std::string lastName, firstName, patronymic, institute, 
-                    department, group, recordBook;
+        std::cout << BOLD << CYAN << "\n=== РЕГИСТРАЦИЯ СТУДЕНТА ===" << RESET << "\n";
+        
+        std::string lastName, firstName, patronymic, 
+                    institute, department, group, recordBook;
         int course;
         
         std::cout << "Фамилия: ";
@@ -40,13 +42,20 @@ public:
         std::getline(std::cin, recordBook);
 
         if(studentDB.exists(recordBook)) {
-            std::cerr << "Студент с таким номером зачетки уже существует!\n";
+            std::cerr << RED << "Ошибка: Студент с таким номером зачетки уже существует!\n" << RESET;
             return -1;
         }
 
         student::Student student(0, lastName, firstName, patronymic, 
                                institute, department, course, group, recordBook);
-        return studentDB.addStudent(student);
+
+        int id = studentDB.addStudent(student);
+
+        if(id != -1) {
+            std::cout << GREEN << "Студент успешно зарегистрирован! ID: " << id << RESET << "\n";
+        }
+
+        return id;
     }
 };
 

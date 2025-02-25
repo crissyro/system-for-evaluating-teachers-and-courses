@@ -16,6 +16,7 @@ public:
                 password TEXT NOT NULL
             );
         )";
+        
         Database::Statement stmt(db, sql);
         sqlite3_step(stmt);
     }
@@ -32,7 +33,7 @@ public:
 
     bool adminExists(const std::string& username) {
         const char* sql = "SELECT 1 FROM admins WHERE username = ?;";
-        
+
         Database::Statement stmt(db, sql);
         stmt.bind(1, username);
 
