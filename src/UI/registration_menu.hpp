@@ -25,19 +25,27 @@ public:
         
         std::cout << "Фамилия: ";
         std::getline(std::cin, lastName);
+
         std::cout << "Имя: ";
         std::getline(std::cin, firstName);
+
         std::cout << "Отчество: ";
         std::getline(std::cin, patronymic);
+
         std::cout << "Институт: ";
         std::getline(std::cin, institute);
+
         std::cout << "Кафедра: ";
         std::getline(std::cin, department);
+
         std::cout << "Курс: ";
         std::cin >> course;
+
         std::cin.ignore();
+
         std::cout << "Группа: ";
         std::getline(std::cin, group);
+        
         std::cout << "Номер зачетки: ";
         std::getline(std::cin, recordBook);
 

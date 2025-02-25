@@ -1,8 +1,8 @@
 #include <iostream>
-#include "ui/colors.hpp"
+#include "UI/colors.hpp"
 #include "database/database.hpp"
-#include "ui/registration_menu.hpp"
-#include "ui/admin_menu.hpp"
+#include "UI/registration_menu.hpp"
+#include "UI/admin_menu.hpp"
 
 
 void showMainMenu() {
