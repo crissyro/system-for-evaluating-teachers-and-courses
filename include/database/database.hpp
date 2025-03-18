@@ -8,6 +8,7 @@
 namespace database {
 
 class Database {
+private:
     sqlite3* db;
     static const char* DB_NAME;
     

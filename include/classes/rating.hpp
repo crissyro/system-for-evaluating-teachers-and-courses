@@ -3,6 +3,7 @@
 namespace rating {
 
 class Rating {
+private:
     int studentId;
     int entityId;
     int value;

@@ -5,6 +5,7 @@
 namespace course {
 
 class Course {
+private:
     int id;
     std::string name;
     std::string institute;
