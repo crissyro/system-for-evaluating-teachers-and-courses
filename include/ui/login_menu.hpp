@@ -2,6 +2,8 @@
 
 #include "colors.hpp"
 #include "../database/database.hpp"
+#include "../database/student_db.hpp"
+#include "../database/admin_db.hpp"
 
 namespace menu {
 
