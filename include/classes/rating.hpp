@@ -13,10 +13,15 @@ public:
     Rating(int sid, int eid, int val, bool isCourse)
         : studentId(sid), entityId(eid), value(val), isCourse(isCourse) {}
         
-    int getStudentId() const { return studentId; }
-    int getEntityId() const { return entityId; }
-    int getValue() const { return value; }
-    bool isCourseRating() const { return isCourse; }
+    ~Rating() = default;
+
+    inline int getStudentId() const { return studentId; }
+
+    inline int getEntityId() const { return entityId; }
+
+    inline int getValue() const { return value; }
+
+    inline bool isCourseRating() const { return isCourse; }
     
 }; // Rating
 

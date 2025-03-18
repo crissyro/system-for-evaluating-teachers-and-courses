@@ -15,6 +15,8 @@ public:
     Teacher(int id, const std::string& surname, const std::string& name,
            const std::string& patronymic, const std::string& institute, 
            const std::string& department);
+    
+    ~Teacher() = default;
 
     inline int getId() const { return id; }
 

@@ -22,6 +22,8 @@ public:
            const std::string& department, int course, const std::string& group,
            const int& recordBook);
 
+    ~Student() = default;
+
     inline int getId() const { return id; }
 
     inline std::string getSurname() const { return surname; }
