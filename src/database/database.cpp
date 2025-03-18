@@ -1,4 +1,4 @@
-#include "database/database.hpp"
+#include "../../include/database/database.hpp"
 
 namespace database {
 
@@ -8,7 +8,7 @@ Database::Database() {
     if(sqlite3_open(DB_NAME, &db) != SQLITE_OK) { 
         throw std::runtime_error(sqlite3_errmsg(db)); 
     }
-    
+
     const char* pragma = "PRAGMA foreign_keys = ON;";
     sqlite3_exec(db, pragma, nullptr, nullptr, nullptr);
 }
