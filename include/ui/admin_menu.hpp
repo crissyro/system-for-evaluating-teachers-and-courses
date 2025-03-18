@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../database/database.hpp"
 #include "colors.hpp"
+#include "../database/database.hpp"
 
 namespace menu {
     
