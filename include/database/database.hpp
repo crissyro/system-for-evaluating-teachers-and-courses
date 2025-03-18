@@ -20,12 +20,15 @@ public:
         sqlite3_stmt* stmt;
     public:
         Statement(sqlite3* db, const char* sql);
+        
         ~Statement();
         
         operator sqlite3_stmt*() const { return stmt; }
         
         void bind(int idx, const std::string& value);
+
         void bind(int idx, int value);
+
     }; // Statement
     
     sqlite3* getHandle() const { return db; }
@@ -34,9 +37,13 @@ public:
         sqlite3* db;
     public:
         explicit Transaction(sqlite3* db);
+        
         ~Transaction();
+
         void commit();
+
         void rollback();
+
     }; // Transaction
     
     std::unique_ptr<Transaction> beginTransaction();
