@@ -20,5 +20,7 @@ public:
     bool adminExists(const std::string& username);
 
     bool checkCredentials(const std::string& username, const std::string& password);
-};
+
+}; // AdminDB
+
 } // namespace database
