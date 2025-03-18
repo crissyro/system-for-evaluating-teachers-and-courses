@@ -1,4 +1,5 @@
 #pragma once
+
 #include "database.hpp"
 #include "../classes/course.hpp"
 
