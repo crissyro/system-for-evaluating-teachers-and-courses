@@ -7,6 +7,7 @@
 namespace database {
 
 class RatingDB {
+private:
     sqlite3* db;
     
 public:

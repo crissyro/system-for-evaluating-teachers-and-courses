@@ -1,5 +1,4 @@
 #include "../../include/database/course_db.hpp"
-#include "../../include/classes/course.hpp"
 
 namespace database {
 

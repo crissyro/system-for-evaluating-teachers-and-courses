@@ -6,6 +6,7 @@
 namespace database {
 
 class CourseDB {
+private:
     sqlite3* db;
     
 public:

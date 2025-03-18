@@ -6,6 +6,7 @@
 namespace menu {
     
 class AdminMenu {
+private:
     database::Database& db;
     
 public:
