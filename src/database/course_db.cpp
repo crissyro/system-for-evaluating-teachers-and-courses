@@ -45,4 +45,13 @@ course::Course CourseDB::getCourse(int id) {
     throw std::runtime_error("Course not found");
 }
 
+bool CourseDB::exists(int courseId) {
+    const char* sql = "SELECT 1 FROM courses WHERE id = ?;";
+
+    Database::Statement stmt(db, sql);
+    stmt.bind(1, courseId);
+    
+    return sqlite3_step(stmt) == SQLITE_ROW;
+}
+
 } // namespace database

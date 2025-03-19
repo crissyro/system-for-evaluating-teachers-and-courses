@@ -18,6 +18,8 @@ public:
 
     course::Course getCourse(int id);
 
+    bool exists(int courseId);
+
 }; // CourseDB
 
 } // namespace database
