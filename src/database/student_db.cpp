@@ -62,8 +62,8 @@ int StudentDB::getStudentIdByRecordBook(const std::string& recordBook) {
     if (sqlite3_step(stmt) == SQLITE_ROW) {
         return sqlite3_column_int(stmt, 0);
     }
-    
+
     return -1;
 }
 
-} // namespace database
+} 
