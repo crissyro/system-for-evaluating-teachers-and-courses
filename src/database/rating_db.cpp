@@ -4,6 +4,18 @@ namespace database {
 
 RatingDB::RatingDB(const Database& database) : db(database.getHandle()) {
     const char* sql = R"(
+        CREATE TABLE IF NOT EXISTS course_ratings (
+            student_id INTEGER NOT NULL,
+            course_id INTEGER NOT NULL,
+            rating INTEGER CHECK(rating BETWEEN 1 AND 5),
+            FOREIGN KEY(student_id) REFERENCES students(id),
+            FOREIGN KEY(course_id) REFERENCES courses(id)
+        );)";
+
+    Database::Statement stmt(db, sql);
+    sqlite3_step(stmt);
+
+    sql = R"(
         CREATE TABLE IF NOT EXISTS teacher_ratings (
             student_id INTEGER NOT NULL,
             teacher_id INTEGER NOT NULL,
@@ -11,9 +23,9 @@ RatingDB::RatingDB(const Database& database) : db(database.getHandle()) {
             FOREIGN KEY(student_id) REFERENCES students(id),
             FOREIGN KEY(teacher_id) REFERENCES teachers(id)
         );)";
-
-    Database::Statement stmt(db, sql);
-    sqlite3_step(stmt);
+        
+    Database::Statement stmt2(db, sql);
+    sqlite3_step(stmt2);
 }
 
 bool RatingDB::addTeacherRating(int studentId, int teacherId, int rating) {
