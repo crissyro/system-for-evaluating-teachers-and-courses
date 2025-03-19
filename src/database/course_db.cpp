@@ -54,4 +54,21 @@ bool CourseDB::exists(int courseId) {
     return sqlite3_step(stmt) == SQLITE_ROW;
 }
 
+std::vector<course::Course> CourseDB::getAllCourses() {
+    std::vector<course::Course> courses;
+    const char* sql = "SELECT * FROM courses;";
+    
+    Database::Statement stmt(db, sql);
+
+    while(sqlite3_step(stmt) == SQLITE_ROW) {
+        courses.emplace_back(
+            sqlite3_column_int(stmt, 0),
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)),
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2))
+        );
+    }
+    
+    return courses;
+}
+
 } // namespace database

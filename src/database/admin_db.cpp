@@ -1,4 +1,4 @@
-#include "database/admin_db.hpp"
+#include "../../include/database/admin_db.hpp"
 #include <stdexcept>
 
 namespace database {
@@ -15,7 +15,7 @@ AdminDB::AdminDB(const Database& database) : db(database.getHandle()) {
     sqlite3_step(stmt);
 }
 
-bool AdminDB::addAdmin(const std::string& username, const std::string& password) {
+bool AdminDB::addAdmin(const std::string& username) {
     const std::string ADMIN_PASSWORD = "admin123";
     
     const char* sql = "INSERT INTO admins (username, password) VALUES (?, ?);";

@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "../include/ui/login_menu.hpp"
-#include "../include/database/student_db.hpp"
-#include "../include/database/admin_db.hpp"
+#include "../../include/ui/login_menu.hpp"
+#include "../../include/database/student_db.hpp"
+#include "../../include/database/admin_db.hpp"
 
 namespace menu {
 

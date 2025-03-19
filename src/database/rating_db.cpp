@@ -82,4 +82,57 @@ std::vector<rating::Rating> RatingDB::getAllRatings() {
     return ratings;
 }
 
+std::vector<std::pair<int, int>> RatingDB::getCourseRatings(int studentId) {
+    std::vector<std::pair<int, int>> ratings;
+    const char* sql = "SELECT course_id, rating FROM course_ratings WHERE student_id = ?;";
+    
+    Database::Statement stmt(db, sql);
+    stmt.bind(1, studentId);
+    
+    while(sqlite3_step(stmt) == SQLITE_ROW) {
+        ratings.emplace_back(
+            sqlite3_column_int(stmt, 0),
+            sqlite3_column_int(stmt, 1)
+        );
+    }
+
+    return ratings;
+}
+
+std::vector<std::pair<int, int>> RatingDB::getTeacherRatings(int studentId) {
+    std::vector<std::pair<int, int>> ratings;
+    const char* sql = "SELECT teacher_id, rating FROM teacher_ratings WHERE student_id = ?;";
+    
+    Database::Statement stmt(db, sql);
+    stmt.bind(1, studentId);
+    
+    while(sqlite3_step(stmt) == SQLITE_ROW) {
+        ratings.emplace_back(
+            sqlite3_column_int(stmt, 0),
+            sqlite3_column_int(stmt, 1)
+        );
+    }
+
+    return ratings;
+}
+
+std::pair<std::vector<std::pair<int, int>>, std::vector<std::pair<int, int>>> 
+RatingDB::getStudentRatings(int studentId) {
+    return {
+        getCourseRatings(studentId),  
+        getTeacherRatings(studentId) 
+    };
+}
+
+bool RatingDB::addCourseRating(int studentId, int courseId, int rating) {
+    const char* sql = "INSERT INTO course_ratings VALUES (?, ?, ?);";
+
+    Database::Statement stmt(db, sql);
+    stmt.bind(1, studentId);
+    stmt.bind(2, courseId);
+    stmt.bind(3, rating);
+    
+    return sqlite3_step(stmt) == SQLITE_DONE;
+}
+
 } // namespace database

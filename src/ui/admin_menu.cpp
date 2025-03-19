@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "../include/ui/admin_menu.hpp"
-#include "../include/database/rating_db.hpp"
-#include "../include/database/course_db.hpp"
+#include "../../include/ui/admin_menu.hpp"
+#include "../../include/database/rating_db.hpp"
+#include "../../include/database/course_db.hpp"
 
 
 namespace menu {

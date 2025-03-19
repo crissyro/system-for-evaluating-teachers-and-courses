@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "database.hpp"
 #include "../classes/course.hpp"
 
@@ -19,6 +20,8 @@ public:
     course::Course getCourse(int id);
 
     bool exists(int courseId);
+
+    std::vector<course::Course> getAllCourses();
 
 }; // CourseDB
 

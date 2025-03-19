@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 #include "database.hpp"
 #include "../classes/rating.hpp"
 
@@ -27,6 +28,12 @@ public:
     std::vector<rating::Rating> getAllRatings();
 
     Statistics getStatistics();
+
+    std::vector<std::pair<int, int>> getCourseRatings(int studentId);
+
+    std::vector<std::pair<int, int>> getTeacherRatings(int studentId);
+
+    std::pair<std::vector<std::pair<int, int>>, std::vector<std::pair<int, int>>> getStudentRatings(int studentId);
 
 }; // class Rating
 

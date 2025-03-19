@@ -12,7 +12,7 @@ private:
 public:
     explicit StudentDB(const Database& database);
 
-    ~StudentDB();
+    ~StudentDB() = default;
 
     int addStudent(const student::Student& student);
 

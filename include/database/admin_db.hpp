@@ -14,7 +14,7 @@ public:
 
     ~AdminDB() = default;
 
-    bool addAdmin(const std::string& username, const std::string& password);
+    bool addAdmin(const std::string& username);
 
     bool adminExists(const std::string& username);
 
