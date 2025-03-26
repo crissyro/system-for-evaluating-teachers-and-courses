@@ -31,5 +31,4 @@ jobs:
       
       - name: Check formatting
         run: |
-          find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' 
-          -exec clang-format --dry-run --Werror {} \;
+          find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' -exec clang-format --dry-run --Werror {} \;
