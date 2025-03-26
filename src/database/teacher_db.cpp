@@ -67,4 +67,27 @@ teacher::Teacher TeacherDB::getTeacher(int id) {
     throw std::runtime_error("Преподаватель не найден");
 }
 
+std::vector<teacher::Teacher> TeacherDB::getAllTeachers() {
+    std::vector<teacher::Teacher> teachers;
+    const char* sql = "SELECT * FROM teachers;";
+    
+    Database::Statement stmt(db, sql);
+
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
+        const char* patronymicPtr = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
+        std::string patronymic = patronymicPtr ? patronymicPtr : "";
+
+        teachers.emplace_back(
+            sqlite3_column_int(stmt, 0), 
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1)), 
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2)), 
+            patronymic,
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4)), 
+            reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5))  
+        );
+    }
+    
+    return teachers;
+}
+
 } 

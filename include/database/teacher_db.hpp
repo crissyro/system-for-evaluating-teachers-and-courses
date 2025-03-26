@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "database.hpp"
 #include "../classes/teacher.hpp"
 
@@ -17,6 +18,8 @@ public:
     int addTeacher(const teacher::Teacher& teacher);
 
     bool exists(int teacherId);
+
+    std::vector<teacher::Teacher> getAllTeachers();
 
     teacher::Teacher getTeacher(int id);
 

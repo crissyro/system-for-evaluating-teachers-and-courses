@@ -3,6 +3,7 @@
 #include "../../include/ui/student_menu.hpp"
 #include "../../include/database/rating_db.hpp"
 #include "../../include/database/course_db.hpp"
+#include "../../include/database/teacher_db.hpp"
 
 
 namespace menu {
@@ -49,6 +50,39 @@ void StudentMenu::rateCourse() {
     }
 }
 
+void StudentMenu::rateTeacher() {
+    printHeader("Оценка преподавателя");
+
+    database::TeacherDB teacherDB(db);
+    auto teachers = teacherDB.getAllTeachers();
+
+    std::cout << YELLOW << "Доступные преподаватели:\n" << RESET;
+    for (const auto& t : teachers) {
+        std::cout << t.getId() << ". " << t.getFullName() << "\n";
+    }
+
+    int teacherId, rating;
+    std::cout << "ID преподавателя: ";
+    std::cin >> teacherId;
+
+    std::cout << "Оценка (1-5): ";
+    std::cin >> rating;
+
+    std::cin.ignore();
+
+    if (rating < 1 || rating > 5) {
+        std::cout << RED << "Некорректная оценка!\n" << RESET;
+        return;
+    }
+
+    database::RatingDB ratingDB(db);
+    if (ratingDB.addTeacherRating(studentId, teacherId, rating)) {
+        std::cout << GREEN << "Оценка добавлена!\n" << RESET;
+    } else {
+        std::cout << RED << "Ошибка!\n" << RESET;
+    }
+}
+
 void StudentMenu::viewRatings() {
     database::RatingDB ratingDB(db);
     
@@ -73,6 +107,7 @@ void StudentMenu::show() {
         std::cout << BOLD << MAGENTA << "\nМеню студента:\n" << RESET
              << "1. Оценить курс\n"
              << "2. Просмотреть оценки\n"
+             << "3. Оценить преподавателя\n"
              << "0. Выход\n"
              << "Выбор: ";
 
@@ -83,6 +118,7 @@ void StudentMenu::show() {
             switch (choice) {
                 case 1: rateCourse(); break;
                 case 2: viewRatings(); break;
+                case 3: rateTeacher(); break;
                 case 0: return;
                 default: std::cout << RED << "Неверный выбор!\n" << RESET;
             }

@@ -21,6 +21,8 @@ public:
     
     void rateCourse();
 
+    void rateTeacher();
+
     void viewRatings();
 
 }; // class StudentMenu
