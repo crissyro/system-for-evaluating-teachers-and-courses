@@ -90,10 +90,8 @@ doxygen:
 clean_doxygen:
 	rm -rf $(DOCS_DIR)
 
-# Дополнительные зависимости
 -include $(OBJECTS:.o=.d)
 
-# Автоматическая генерация зависимостей
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) -MMD -MP -c $< -o $@

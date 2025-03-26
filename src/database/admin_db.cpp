@@ -13,16 +13,30 @@ AdminDB::AdminDB(const Database& database) : db(database.getHandle()) {
 
     Database::Statement stmt(db, sql);
     sqlite3_step(stmt);
+
+    if (!adminExists("admin")) {
+        const char* insert_sql = "INSERT INTO admins (username, password) VALUES ('admin', 'admin123');";
+        
+        Database::Statement insert_stmt(db, insert_sql);
+        sqlite3_step(insert_stmt);
+    }
 }
 
-bool AdminDB::addAdmin(const std::string& username) {
-    const std::string ADMIN_PASSWORD = "admin123";
-    
-    const char* sql = "INSERT INTO admins (username, password) VALUES (?, ?);";
+bool AdminDB::adminExists(const std::string& username) {
+    const char* sql = "SELECT 1 FROM admins WHERE username = ?;";
 
     Database::Statement stmt(db, sql);
     stmt.bind(1, username);
-    stmt.bind(2, ADMIN_PASSWORD);
+    
+    return sqlite3_step(stmt) == SQLITE_ROW;
+}
+
+
+bool AdminDB::addAdmin(const std::string& username) {
+    const char* sql = "INSERT INTO admins (username, password) VALUES (?, admin123);";
+
+    Database::Statement stmt(db, sql);
+    stmt.bind(1, username);
     
     return sqlite3_step(stmt) == SQLITE_DONE;
 }

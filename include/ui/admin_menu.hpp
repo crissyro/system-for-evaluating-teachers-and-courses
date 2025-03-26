@@ -20,6 +20,10 @@ public:
 
     void showStatistics();
 
+    void addCourse();
+    
+    void addTeacher();
+
 }; // AdminMenu
 
 } // namespace menu

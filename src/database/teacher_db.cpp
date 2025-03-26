@@ -21,7 +21,7 @@ TeacherDB::TeacherDB(const Database& database) : db(database.getHandle()) {
 int TeacherDB::addTeacher(const teacher::Teacher& teacher) {
     const char* sql = R"(
         INSERT INTO teachers 
-        (last_name, first_name, patronymic, institute, department)
+        (surname, name, patronymic, institute, department)
         VALUES (?, ?, ?, ?, ?);)";
     
     Database::Statement stmt(db, sql);

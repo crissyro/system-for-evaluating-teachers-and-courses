@@ -12,7 +12,7 @@ private:
 public:
     explicit TeacherDB(const Database& database);
 
-    ~TeacherDB();
+    ~TeacherDB() = default;
 
     int addTeacher(const teacher::Teacher& teacher);
 

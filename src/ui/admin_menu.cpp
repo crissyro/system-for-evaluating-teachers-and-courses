@@ -3,6 +3,7 @@
 #include "../../include/ui/admin_menu.hpp"
 #include "../../include/database/rating_db.hpp"
 #include "../../include/database/course_db.hpp"
+#include "../../include/database/teacher_db.hpp"
 
 
 namespace menu {
@@ -36,6 +37,8 @@ void AdminMenu::show() {
         std::cout << BOLD << MAGENTA << "\nАдминистраторское меню:\n" << RESET
              << "1. Показать все оценки\n"
              << "2. Статистика оценок\n"
+             << "3. Добавить курс\n"          
+             << "4. Добавить преподавателя\n" 
              << "0. Выход\n"
              << "Выбор: ";
         std::cin >> choice;
@@ -45,12 +48,63 @@ void AdminMenu::show() {
             switch (choice) {
                 case 1: showAllRatings(); break;
                 case 2: showStatistics(); break;
+                case 3: addCourse(); break;    
+                case 4: addTeacher(); break;  
                 case 0: return;
                 default: std::cout << RED << "Неверный выбор!\n" << RESET;
             }
         } catch (const std::exception& e) {
             std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
         }
+    }
+}
+
+void AdminMenu::addCourse() {
+    std::cout << BOLD << CYAN << "\nДобавление нового курса\n" << RESET;
+    
+    std::string name, institute;
+    std::cout << "Название курса: ";
+    std::getline(std::cin, name);
+    
+    std::cout << "Институт: ";
+    std::getline(std::cin, institute);
+
+    try {
+        database::CourseDB courseDB(db);
+        int id = courseDB.addCourse(course::Course(0, name, institute));
+        std::cout << GREEN << "Курс добавлен! ID: " << id << RESET << "\n";
+    } catch (const std::exception& e) {
+        std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
+    }
+}
+
+void AdminMenu::addTeacher() {
+    std::cout << BOLD << CYAN << "\nДобавление преподавателя\n" << RESET;
+    
+    std::string surname, name, patronymic, institute, department;
+    std::cout << "Фамилия: ";
+    std::getline(std::cin, surname);
+    
+    std::cout << "Имя: ";
+    std::getline(std::cin, name);
+    
+    std::cout << "Отчество: ";
+    std::getline(std::cin, patronymic);
+    
+    std::cout << "Институт: ";
+    std::getline(std::cin, institute);
+    
+    std::cout << "Кафедра: ";
+    std::getline(std::cin, department);
+
+    try {
+        database::TeacherDB teacherDB(db);
+        int id = teacherDB.addTeacher(teacher::Teacher(
+            0, surname, name, patronymic, institute, department
+        ));
+        std::cout << GREEN << "Преподаватель добавлен! ID: " << id << RESET << "\n";
+    } catch (const std::exception& e) {
+        std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
     }
 }
 

@@ -44,8 +44,8 @@ RatingDB::Statistics RatingDB::getStatistics() {
     
     const char* sql = R"(
         SELECT 
-            AVG(SELECT rating FROM course_ratings),
-            AVG(SELECT rating FROM teacher_ratings)
+            (SELECT AVG(rating) FROM course_ratings),
+            (SELECT AVG(rating) FROM teacher_ratings)
     )";
     
     Database::Statement stmt(db, sql);
