@@ -27,12 +27,9 @@ jobs:
   clang-format-check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       
-    - name: Check formatting
-      uses: jidicula/clang-format-action@v6
-      with:
-        sources: 'include/**/*.hpp src/**/*.cpp'
-        clangFormatVersion: 15
-        style: file  
-        checkOnly: true
+      - name: Check formatting
+        run: |
+          find include src -name "*.hpp" -o -name "*.cpp" | 
+          xargs clang-format --style=file --dry-run --Werror
