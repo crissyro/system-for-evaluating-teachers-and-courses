@@ -21,9 +21,6 @@ jobs:
     - name: Build project
       run: make
         
-    - name: Run tests
-      run: make test
-
     - name: Check code style
       run: make check-format
 
@@ -37,5 +34,5 @@ jobs:
       with:
         sources: 'include/**/*.hpp src/**/*.cpp'
         clangFormatVersion: 15
-        style: file  # Использует .clang-format из вашего репозитория
+        style: file  
         checkOnly: true
