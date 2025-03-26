@@ -6,27 +6,23 @@
 #include "../../include/database/rating_db.hpp"
 #include "../../include/database/teacher_db.hpp"
 
-namespace menu
-{
+namespace menu {
 
 AdminMenu::AdminMenu(database::Database& database) : db(database) {}
 
-void AdminMenu::showAllRatings()
-{
+void AdminMenu::showAllRatings() {
     database::RatingDB ratingDB(db);
     auto ratings = ratingDB.getAllRatings();
 
     std::cout << BOLD << YELLOW << "\n=== Все оценки ===\n" << RESET;
-    for (const auto& r : ratings)
-    {
+    for (const auto& r : ratings) {
         std::cout << "Студент ID: " << r.getStudentId() << " | "
                   << (r.isCourseRating() ? "Курс ID: " : "Преподаватель ID: ") << r.getEntityId()
                   << " | Оценка: " << r.getValue() << "/5\n";
     }
 }
 
-void AdminMenu::showStatistics()
-{
+void AdminMenu::showStatistics() {
     database::RatingDB ratingDB(db);
     database::CourseDB courseDB(db);
     database::TeacherDB teacherDB(db);
@@ -34,39 +30,29 @@ void AdminMenu::showStatistics()
     auto stats = ratingDB.getStatistics();
 
     std::cout << BOLD << CYAN << "\n=== Статистика по курсам ===\n" << RESET;
-    for (const auto& [courseId, avg] : stats.courseStats)
-    {
-        try
-        {
+    for (const auto& [courseId, avg] : stats.courseStats) {
+        try {
             auto course = courseDB.getCourse(courseId);
             std::cout << course.getName() << " (ID: " << courseId << "): " << avg << "/5\n";
-        }
-        catch (...)
-        {
+        } catch (...) {
             std::cout << "Курс ID:" << courseId << " (удален): " << avg << "/5\n";
         }
     }
 
     std::cout << BOLD << CYAN << "\n=== Статистика по преподавателям ===\n" << RESET;
-    for (const auto& [teacherId, avg] : stats.teacherStats)
-    {
-        try
-        {
+    for (const auto& [teacherId, avg] : stats.teacherStats) {
+        try {
             auto teacher = teacherDB.getTeacher(teacherId);
             std::cout << teacher.getFullName() << " (ID: " << teacherId << "): " << avg << "/5\n";
-        }
-        catch (...)
-        {
+        } catch (...) {
             std::cout << "Преподаватель ID:" << teacherId << " (удален): " << avg << "/5\n";
         }
     }
 }
 
-void AdminMenu::show()
-{
+void AdminMenu::show() {
     int choice;
-    while (true)
-    {
+    while (true) {
         std::cout << BOLD << MAGENTA << "\nАдминистраторское меню:\n"
                   << RESET << "1. Показать все оценки\n"
                   << "2. Статистика оценок\n"
@@ -77,10 +63,8 @@ void AdminMenu::show()
         std::cin >> choice;
         std::cin.ignore();
 
-        try
-        {
-            switch (choice)
-            {
+        try {
+            switch (choice) {
                 case 1:
                     showAllRatings();
                     break;
@@ -98,16 +82,13 @@ void AdminMenu::show()
                 default:
                     std::cout << RED << "Неверный выбор!\n" << RESET;
             }
-        }
-        catch (const std::exception& e)
-        {
+        } catch (const std::exception& e) {
             std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
         }
     }
 }
 
-void AdminMenu::addCourse()
-{
+void AdminMenu::addCourse() {
     std::cout << BOLD << CYAN << "\nДобавление нового курса\n" << RESET;
 
     std::string name, institute;
@@ -117,20 +98,16 @@ void AdminMenu::addCourse()
     std::cout << "Институт: ";
     std::getline(std::cin, institute);
 
-    try
-    {
+    try {
         database::CourseDB courseDB(db);
         int id = courseDB.addCourse(course::Course(0, name, institute));
         std::cout << GREEN << "Курс добавлен! ID: " << id << RESET << "\n";
-    }
-    catch (const std::exception& e)
-    {
+    } catch (const std::exception& e) {
         std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
     }
 }
 
-void AdminMenu::addTeacher()
-{
+void AdminMenu::addTeacher() {
     std::cout << BOLD << CYAN << "\nДобавление преподавателя\n" << RESET;
 
     std::string surname, name, patronymic, institute, department;
@@ -149,14 +126,11 @@ void AdminMenu::addTeacher()
     std::cout << "Кафедра: ";
     std::getline(std::cin, department);
 
-    try
-    {
+    try {
         database::TeacherDB teacherDB(db);
         int id = teacherDB.addTeacher(teacher::Teacher(0, surname, name, patronymic, institute, department));
         std::cout << GREEN << "Преподаватель добавлен! ID: " << id << RESET << "\n";
-    }
-    catch (const std::exception& e)
-    {
+    } catch (const std::exception& e) {
         std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
     }
 }

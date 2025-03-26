@@ -2,6 +2,6 @@
 BasedOnStyle: Google
 AllowShortFunctionsOnASingleLine: Empty
 AlignAfterOpenBracket: Align
-BreakBeforeBraces: Allman
+BreakBeforeBraces: Attach
 ColumnLimit: 120
 IndentWidth: 4

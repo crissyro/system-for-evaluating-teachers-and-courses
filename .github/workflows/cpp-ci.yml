@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-format-check:
+  build-and-check:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -16,26 +16,20 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y \
-          g++ \
-          make \
-          sqlite3 \
-          libsqlite3-dev \
-          clang-format-15
-
-    - name: Check code style
-      run: |
-        # Генерируем .clang-format если отсутствует
-        if [ ! -f .clang-format ]; then
-          echo "Using fallback clang-format config"
-          echo "BasedOnStyle: Google" > .clang-format
-          echo "IndentWidth: 4" >> .clang-format
-          echo "ColumnLimit: 120" >> .clang-format
-        fi
-        
-        # Проверяем форматирование
-        find include src -name '*.hpp' -o -name '*.cpp' -print0 | \
-          xargs -0 clang-format-15 --style=file --dry-run --Werror
+        sudo apt-get install -y g++ make sqlite3 libsqlite3-dev clang-format
 
     - name: Build project
       run: make
+        
+    - name: Check code style
+      run: make check-style
+
+  clang-format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Check formatting
+        run: |
+          find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' 
+          -exec clang-format --dry-run --Werror {} \;

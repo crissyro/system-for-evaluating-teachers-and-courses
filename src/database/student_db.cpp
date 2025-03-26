@@ -1,10 +1,8 @@
 #include "../../include/database/student_db.hpp"
 
-namespace database
-{
+namespace database {
 
-StudentDB::StudentDB(const Database& database) : db(database.getHandle())
-{
+StudentDB::StudentDB(const Database& database) : db(database.getHandle()) {
     const char* sql = R"(
         CREATE TABLE IF NOT EXISTS students (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,8 +20,7 @@ StudentDB::StudentDB(const Database& database) : db(database.getHandle())
     sqlite3_step(stmt);
 }
 
-int StudentDB::addStudent(const student::Student& student)
-{
+int StudentDB::addStudent(const student::Student& student) {
     const char* sql = R"(
         INSERT INTO students 
         (surname, name, patronymic, institute, 
@@ -40,16 +37,14 @@ int StudentDB::addStudent(const student::Student& student)
     stmt.bind(7, student.getGroup());
     stmt.bind(8, student.getRecordBook());
 
-    if (sqlite3_step(stmt) != SQLITE_DONE)
-    {
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
         throw std::runtime_error("Ошибка регистрации студента");
     }
 
     return sqlite3_last_insert_rowid(db);
 }
 
-bool StudentDB::exists(const std::string& recordBook)
-{
+bool StudentDB::exists(const std::string& recordBook) {
     const char* sql = "SELECT 1 FROM students WHERE record_book = ?;";
 
     Database::Statement stmt(db, sql);
@@ -58,15 +53,13 @@ bool StudentDB::exists(const std::string& recordBook)
     return sqlite3_step(stmt) == SQLITE_ROW;
 }
 
-int StudentDB::getStudentIdByRecordBook(const std::string& recordBook)
-{
+int StudentDB::getStudentIdByRecordBook(const std::string& recordBook) {
     const char* sql = "SELECT id FROM students WHERE record_book = ?;";
 
     Database::Statement stmt(db, sql);
     stmt.bind(1, recordBook);
 
-    if (sqlite3_step(stmt) == SQLITE_ROW)
-    {
+    if (sqlite3_step(stmt) == SQLITE_ROW) {
         return sqlite3_column_int(stmt, 0);
     }
 

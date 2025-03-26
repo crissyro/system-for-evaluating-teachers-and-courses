@@ -5,13 +5,11 @@
 #include "../../include/classes/student.hpp"
 #include "../../include/database/student_db.hpp"
 
-namespace menu
-{
+namespace menu {
 
 RegistrationMenu::RegistrationMenu(database::Database& database) : db(database) {}
 
-int RegistrationMenu::registerStudent()
-{
+int RegistrationMenu::registerStudent() {
     std::string surname;
     std::string name;
     std::string patronymic;
@@ -49,12 +47,10 @@ int RegistrationMenu::registerStudent()
     std::cout << "Номер зачетки: ";
     std::getline(std::cin, recordBook);
 
-    try
-    {
+    try {
         database::StudentDB studentDB(db);
 
-        if (studentDB.exists(recordBook))
-        {
+        if (studentDB.exists(recordBook)) {
             std::cout << RED << "Ошибка: Зачетная книжка уже зарегистрирована!\n" << RESET;
             return -1;
         }
@@ -62,9 +58,7 @@ int RegistrationMenu::registerStudent()
         student::Student newStudent(0, surname, name, patronymic, institute, department, course, group, recordBook);
 
         return studentDB.addStudent(newStudent);
-    }
-    catch (const std::exception& e)
-    {
+    } catch (const std::exception& e) {
         std::cout << RED << "Ошибка: " << e.what() << RESET << "\n";
         return -1;
     }

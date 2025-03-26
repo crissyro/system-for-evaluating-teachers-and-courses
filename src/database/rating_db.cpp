@@ -1,10 +1,8 @@
 #include "../../include/database/rating_db.hpp"
 
-namespace database
-{
+namespace database {
 
-RatingDB::RatingDB(const Database& database) : db(database.getHandle())
-{
+RatingDB::RatingDB(const Database& database) : db(database.getHandle()) {
     const char* sql = R"(
         CREATE TABLE IF NOT EXISTS course_ratings (
             student_id INTEGER NOT NULL,
@@ -32,8 +30,7 @@ RatingDB::RatingDB(const Database& database) : db(database.getHandle())
     sqlite3_step(stmt2);
 }
 
-bool RatingDB::addTeacherRating(int studentId, int teacherId, int rating)
-{
+bool RatingDB::addTeacherRating(int studentId, int teacherId, int rating) {
     const char* sql = "INSERT INTO teacher_ratings VALUES (?, ?, ?);";
 
     Database::Statement stmt(db, sql);
@@ -44,15 +41,11 @@ bool RatingDB::addTeacherRating(int studentId, int teacherId, int rating)
     return sqlite3_step(stmt) == SQLITE_DONE;
 }
 
-bool RatingDB::hasExistingRating(int studentId, int entityId, bool isCourse)
-{
+bool RatingDB::hasExistingRating(int studentId, int entityId, bool isCourse) {
     const char* sql;
-    if (isCourse)
-    {
+    if (isCourse) {
         sql = "SELECT 1 FROM course_ratings WHERE student_id = ? AND course_id = ?;";
-    }
-    else
-    {
+    } else {
         sql =
             "SELECT 1 FROM teacher_ratings WHERE student_id = ? AND teacher_id = "
             "?;";
@@ -65,8 +58,7 @@ bool RatingDB::hasExistingRating(int studentId, int entityId, bool isCourse)
     return sqlite3_step(stmt) == SQLITE_ROW;
 }
 
-RatingDB::Statistics RatingDB::getStatistics()
-{
+RatingDB::Statistics RatingDB::getStatistics() {
     Statistics stats;
 
     const char* course_sql = R"(
@@ -75,8 +67,7 @@ RatingDB::Statistics RatingDB::getStatistics()
         GROUP BY course_id;)";
 
     Database::Statement course_stmt(db, course_sql);
-    while (sqlite3_step(course_stmt) == SQLITE_ROW)
-    {
+    while (sqlite3_step(course_stmt) == SQLITE_ROW) {
         stats.courseStats.emplace_back(sqlite3_column_int(course_stmt, 0), sqlite3_column_double(course_stmt, 1));
     }
 
@@ -86,16 +77,14 @@ RatingDB::Statistics RatingDB::getStatistics()
         GROUP BY teacher_id;)";
 
     Database::Statement teacher_stmt(db, teacher_sql);
-    while (sqlite3_step(teacher_stmt) == SQLITE_ROW)
-    {
+    while (sqlite3_step(teacher_stmt) == SQLITE_ROW) {
         stats.teacherStats.emplace_back(sqlite3_column_int(teacher_stmt, 0), sqlite3_column_double(teacher_stmt, 1));
     }
 
     return stats;
 }
 
-std::vector<rating::Rating> RatingDB::getAllRatings()
-{
+std::vector<rating::Rating> RatingDB::getAllRatings() {
     std::vector<rating::Rating> ratings;
 
     const char* sql = R"(
@@ -106,8 +95,7 @@ std::vector<rating::Rating> RatingDB::getAllRatings()
 
     Database::Statement stmt(db, sql);
 
-    while (sqlite3_step(stmt) == SQLITE_ROW)
-    {
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
         ratings.emplace_back(sqlite3_column_int(stmt, 1), sqlite3_column_int(stmt, 2), sqlite3_column_int(stmt, 3),
 
                              std::string(reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0))) == "course");
@@ -116,45 +104,40 @@ std::vector<rating::Rating> RatingDB::getAllRatings()
     return ratings;
 }
 
-std::vector<std::pair<int, int>> RatingDB::getCourseRatings(int studentId)
-{
+std::vector<std::pair<int, int>> RatingDB::getCourseRatings(int studentId) {
     std::vector<std::pair<int, int>> ratings;
     const char* sql = "SELECT course_id, rating FROM course_ratings WHERE student_id = ?;";
 
     Database::Statement stmt(db, sql);
     stmt.bind(1, studentId);
 
-    while (sqlite3_step(stmt) == SQLITE_ROW)
-    {
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
         ratings.emplace_back(sqlite3_column_int(stmt, 0), sqlite3_column_int(stmt, 1));
     }
 
     return ratings;
 }
 
-std::vector<std::pair<int, int>> RatingDB::getTeacherRatings(int studentId)
-{
+std::vector<std::pair<int, int>> RatingDB::getTeacherRatings(int studentId) {
     std::vector<std::pair<int, int>> ratings;
     const char* sql = "SELECT teacher_id, rating FROM teacher_ratings WHERE student_id = ?;";
 
     Database::Statement stmt(db, sql);
     stmt.bind(1, studentId);
 
-    while (sqlite3_step(stmt) == SQLITE_ROW)
-    {
+    while (sqlite3_step(stmt) == SQLITE_ROW) {
         ratings.emplace_back(sqlite3_column_int(stmt, 0), sqlite3_column_int(stmt, 1));
     }
 
     return ratings;
 }
 
-std::pair<std::vector<std::pair<int, int>>, std::vector<std::pair<int, int>>> RatingDB::getStudentRatings(int studentId)
-{
+std::pair<std::vector<std::pair<int, int>>, std::vector<std::pair<int, int>>> RatingDB::getStudentRatings(
+    int studentId) {
     return {getCourseRatings(studentId), getTeacherRatings(studentId)};
 }
 
-bool RatingDB::addCourseRating(int studentId, int courseId, int rating)
-{
+bool RatingDB::addCourseRating(int studentId, int courseId, int rating) {
     const char* sql = R"(
         INSERT OR REPLACE INTO course_ratings 
         (student_id, course_id, rating) 

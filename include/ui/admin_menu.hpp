@@ -1,29 +1,63 @@
-#pragma once
+/**
+ * @file admin_menu.hpp
+ * @brief Меню администратора системы рейтингов
+ */
 
-#include "../database/database.hpp"
-#include "colors.hpp"
+ #pragma once
 
-namespace menu {
-
-class AdminMenu {
- private:
-  database::Database& db;
-
- public:
-  explicit AdminMenu(database::Database& database);
-
-  ~AdminMenu() = default;
-
-  void show();
-
-  void showAllRatings();
-
-  void showStatistics();
-
-  void addCourse();
-
-  void addTeacher();
-
-};  // AdminMenu
-
-}  // namespace menu
+ #include "../database/database.hpp"
+ #include "colors.hpp"
+ 
+ namespace menu {
+ 
+ /**
+  * @class AdminMenu
+  * @brief Предоставляет функционал для администратора
+  * 
+  * Включает:
+  * - Просмотр всех оценок
+  * - Статистику
+  * - Управление курсами и преподавателями
+  */
+ class AdminMenu {
+  private:
+   database::Database& db; ///< Ссылка на базу данных
+ 
+  public:
+   /**
+    * @brief Конструктор, инициализирующий подключение к БД
+    * @param database Ссылка на объект базы данных
+    */
+   explicit AdminMenu(database::Database& database);
+ 
+   /// @brief Деструктор по умолчанию
+   ~AdminMenu() = default;
+ 
+   /**
+    * @brief Главный цикл меню администратора
+    */
+   void show();
+ 
+   /**
+    * @brief Отобразить все оценки системы
+    */
+   void showAllRatings();
+ 
+   /**
+    * @brief Показать статистику оценок
+    */
+   void showStatistics();
+ 
+   /**
+    * @brief Добавить новый курс в систему
+    */
+   void addCourse();
+ 
+   /**
+    * @brief Добавить нового преподавателя
+    */
+   void addTeacher();
+ 
+ };  // class AdminMenu
+ 
+ }  // namespace menu
