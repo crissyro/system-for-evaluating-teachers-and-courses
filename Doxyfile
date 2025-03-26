@@ -950,6 +950,10 @@ WARN_LOGFILE           =
 # Note: If this tag is empty the current directory is searched.
 
 INPUT                  = src/
+INPUT                 += include/classes/course.hpp 
+INPUT                 += include/classes/rating.hpp 
+INPUT                 += include/classes/student.hpp 
+INPUT                 += include/classes/teacher.hpp
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
