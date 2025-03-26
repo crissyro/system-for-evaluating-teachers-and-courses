@@ -1,29 +1,29 @@
 #pragma once
 
-#include "colors.hpp"
 #include "../database/database.hpp"
+#include "colors.hpp"
 
 namespace menu {
-    
+
 class AdminMenu {
-private:
-    database::Database& db;
-    
-public:
-    explicit AdminMenu(database::Database& database);
+ private:
+  database::Database& db;
 
-    ~AdminMenu() = default;
+ public:
+  explicit AdminMenu(database::Database& database);
 
-    void show();
+  ~AdminMenu() = default;
 
-    void showAllRatings();
+  void show();
 
-    void showStatistics();
+  void showAllRatings();
 
-    void addCourse();
-    
-    void addTeacher();
+  void showStatistics();
 
-}; // AdminMenu
+  void addCourse();
 
-} // namespace menu
+  void addTeacher();
+
+};  // AdminMenu
+
+}  // namespace menu

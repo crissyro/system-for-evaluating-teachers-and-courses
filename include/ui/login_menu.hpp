@@ -1,24 +1,24 @@
 #pragma once
 
-#include "colors.hpp"
+#include "../database/admin_db.hpp"
 #include "../database/database.hpp"
 #include "../database/student_db.hpp"
-#include "../database/admin_db.hpp"
+#include "colors.hpp"
 
 namespace menu {
 
 class LoginMenu {
-private:
-    database::Database& db;
-    
-public:
-    LoginMenu(database::Database& database);
+ private:
+  database::Database& db;
 
-    ~LoginMenu() = default;
+ public:
+  LoginMenu(database::Database& database);
 
-    int loginStudent();
+  ~LoginMenu() = default;
 
-    bool loginAdmin();
+  int loginStudent();
+
+  bool loginAdmin();
 };
 
-} // namespace menu
+}  // namespace menu

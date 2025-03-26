@@ -1,25 +1,25 @@
 #pragma once
 
-#include "database.hpp"
 #include "../classes/student.hpp"
+#include "database.hpp"
 
 namespace database {
 
 class StudentDB {
-private:
-    sqlite3* db;
-    
-public:
-    explicit StudentDB(const Database& database);
+ private:
+  sqlite3* db;
 
-    ~StudentDB() = default;
+ public:
+  explicit StudentDB(const Database& database);
 
-    int addStudent(const student::Student& student);
+  ~StudentDB() = default;
 
-    bool exists(const std::string& recordBook);
+  int addStudent(const student::Student& student);
 
-    int getStudentIdByRecordBook(const std::string& recordBook);
+  bool exists(const std::string& recordBook);
 
-}; // class StudentDB
+  int getStudentIdByRecordBook(const std::string& recordBook);
 
-} // namespace database
+};  // class StudentDB
+
+}  // namespace database

@@ -5,23 +5,23 @@
 namespace course {
 
 class Course {
-private:
-    int id;
-    std::string name;
-    std::string institute;
-    
-public:
-    Course(int id, const std::string& name, const std::string& institute)
-        : id(id), name(name), institute(institute) {}
+ private:
+  int id;
+  std::string name;
+  std::string institute;
 
-    ~Course() = default;  
-        
-    inline int getId() const { return id; }
+ public:
+  Course(int id, const std::string& name, const std::string& institute)
+      : id(id), name(name), institute(institute) {}
 
-    inline std::string getName() const { return name; }
+  ~Course() = default;
 
-    inline std::string getInstitute() const { return institute; }
-    
-}; // Course
+  inline int getId() const { return id; }
 
-} // namespace course
+  inline std::string getName() const { return name; }
+
+  inline std::string getInstitute() const { return institute; }
+
+};  // Course
+
+}  // namespace course

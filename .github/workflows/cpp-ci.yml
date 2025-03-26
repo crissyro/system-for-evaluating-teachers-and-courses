@@ -1,0 +1,41 @@
+name: C++ CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ make sqlite3 libsqlite3-dev clang-format
+
+    - name: Build project
+      run: make
+        
+    - name: Run tests
+      run: make test
+
+    - name: Check code style
+      run: make check-format
+
+  clang-format-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      
+    - name: Check formatting
+      uses: jidicula/clang-format-action@v7
+      with:
+        sources: 'include/**/*.hpp src/**/*.cpp'
+        clangFormatVersion: 15
+        style: file  # Использует .clang-format из вашего репозитория
+        checkOnly: true

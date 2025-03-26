@@ -1,53 +1,56 @@
 #pragma once
 
 #include <sqlite3.h>
-#include <stdexcept>
+
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 namespace database {
 
 class Database {
-private:
+ private:
+  sqlite3* db;
+  static const char* DB_NAME;
+
+ public:
+  Database();
+  ~Database();
+
+  class Statement {
+    sqlite3_stmt* stmt;
+
+   public:
+    Statement(sqlite3* db, const char* sql);
+
+    ~Statement();
+
+    operator sqlite3_stmt*() const { return stmt; }
+
+    void bind(int idx, const std::string& value);
+
+    void bind(int idx, int value);
+
+  };  // Statement
+
+  sqlite3* getHandle() const { return db; }
+
+  class Transaction {
     sqlite3* db;
-    static const char* DB_NAME;
-    
-public:
-    Database();
-    ~Database();
-    
-    class Statement {
-        sqlite3_stmt* stmt;
-    public:
-        Statement(sqlite3* db, const char* sql);
-        
-        ~Statement();
-        
-        operator sqlite3_stmt*() const { return stmt; }
-        
-        void bind(int idx, const std::string& value);
 
-        void bind(int idx, int value);
+   public:
+    explicit Transaction(sqlite3* db);
 
-    }; // Statement
-    
-    sqlite3* getHandle() const { return db; }
-    
-    class Transaction {
-        sqlite3* db;
-    public:
-        explicit Transaction(sqlite3* db);
-        
-        ~Transaction();
+    ~Transaction();
 
-        void commit();
+    void commit();
 
-        void rollback();
+    void rollback();
 
-    }; // Transaction
-    
-    std::unique_ptr<Transaction> beginTransaction();
+  };  // Transaction
 
-}; //Database
+  std::unique_ptr<Transaction> beginTransaction();
 
-} // namespace database
+};  // Database
+
+}  // namespace database

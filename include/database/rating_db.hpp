@@ -1,42 +1,45 @@
 #pragma once
 
-#include <vector>
 #include <utility>
-#include "database.hpp"
+#include <vector>
+
 #include "../classes/rating.hpp"
+#include "database.hpp"
 
 namespace database {
 
 class RatingDB {
-private:
-    sqlite3* db;
-    
-public:
-    struct Statistics {
-        std::vector<std::pair<int, double>> courseStats;  // <course_id, avg_rating>
-        std::vector<std::pair<int, double>> teacherStats; // <teacher_id, avg_rating>
-    };
+ private:
+  sqlite3* db;
 
-    explicit RatingDB(const Database& database);
+ public:
+  struct Statistics {
+    std::vector<std::pair<int, double>> courseStats;  // <course_id, avg_rating>
+    std::vector<std::pair<int, double>>
+        teacherStats;  // <teacher_id, avg_rating>
+  };
 
-    ~RatingDB() = default;
-    
-    bool addCourseRating(int studentId, int courseId, int rating);
+  explicit RatingDB(const Database& database);
 
-    bool addTeacherRating(int studentId, int teacherId, int rating);
-    
-    std::vector<rating::Rating> getAllRatings();
+  ~RatingDB() = default;
 
-    Statistics getStatistics();
+  bool addCourseRating(int studentId, int courseId, int rating);
 
-    bool hasExistingRating(int studentId, int entityId, bool isCourse);
+  bool addTeacherRating(int studentId, int teacherId, int rating);
 
-    std::vector<std::pair<int, int>> getCourseRatings(int studentId);
+  std::vector<rating::Rating> getAllRatings();
 
-    std::vector<std::pair<int, int>> getTeacherRatings(int studentId);
+  Statistics getStatistics();
 
-    std::pair<std::vector<std::pair<int, int>>, std::vector<std::pair<int, int>>> getStudentRatings(int studentId);
+  bool hasExistingRating(int studentId, int entityId, bool isCourse);
 
-}; // class Rating
+  std::vector<std::pair<int, int>> getCourseRatings(int studentId);
 
-} // namespace database
+  std::vector<std::pair<int, int>> getTeacherRatings(int studentId);
+
+  std::pair<std::vector<std::pair<int, int>>, std::vector<std::pair<int, int>>>
+  getStudentRatings(int studentId);
+
+};  // class Rating
+
+}  // namespace database

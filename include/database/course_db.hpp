@@ -1,28 +1,29 @@
 #pragma once
 
 #include <vector>
-#include "database.hpp"
+
 #include "../classes/course.hpp"
+#include "database.hpp"
 
 namespace database {
 
 class CourseDB {
-private:
-    sqlite3* db;
-    
-public:
-    explicit CourseDB(const Database& database);
+ private:
+  sqlite3* db;
 
-    ~CourseDB() = default;
+ public:
+  explicit CourseDB(const Database& database);
 
-    int addCourse(const course::Course& course);
+  ~CourseDB() = default;
 
-    course::Course getCourse(int id);
+  int addCourse(const course::Course& course);
 
-    bool exists(int courseId);
+  course::Course getCourse(int id);
 
-    std::vector<course::Course> getAllCourses();
+  bool exists(int courseId);
 
-}; // CourseDB
+  std::vector<course::Course> getAllCourses();
 
-} // namespace database
+};  // CourseDB
+
+}  // namespace database

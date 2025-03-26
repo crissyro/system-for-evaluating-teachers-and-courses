@@ -6,25 +6,25 @@
 namespace menu {
 
 class StudentMenu {
-private:
-    database::Database& db;
-    int studentId;
-    
-    void printHeader(const std::string& title);
-    
-public:
-    StudentMenu(database::Database& database, int sid);
+ private:
+  database::Database& db;
+  int studentId;
 
-    ~StudentMenu() = default;
+  void printHeader(const std::string& title);
 
-    void show();
-    
-    void rateCourse();
+ public:
+  StudentMenu(database::Database& database, int sid);
 
-    void rateTeacher();
+  ~StudentMenu() = default;
 
-    void viewRatings();
+  void show();
 
-}; // class StudentMenu
+  void rateCourse();
 
-} // namespace menu
+  void rateTeacher();
+
+  void viewRatings();
+
+};  // class StudentMenu
+
+}  // namespace menu

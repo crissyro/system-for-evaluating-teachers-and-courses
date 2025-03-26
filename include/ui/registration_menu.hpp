@@ -1,21 +1,21 @@
 #pragma once
 
-#include "colors.hpp"
 #include "../database/database.hpp"
+#include "colors.hpp"
 
 namespace menu {
 
 class RegistrationMenu {
-private:
-    database::Database& db;
-    
-public:
-    explicit RegistrationMenu(database::Database& database);
+ private:
+  database::Database& db;
 
-    ~RegistrationMenu() = default;
+ public:
+  explicit RegistrationMenu(database::Database& database);
 
-    int registerStudent();
+  ~RegistrationMenu() = default;
 
-}; // class RegistrationMenu
+  int registerStudent();
 
-} // namespace menu
+};  // class RegistrationMenu
+
+}  // namespace menu

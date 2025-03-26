@@ -4,45 +4,43 @@
 
 namespace teacher {
 class Teacher {
-private:
-    int id;
-    std::string surname;
-    std::string name;
-    std::string patronymic;
-    std::string institute;
-    std::string department;
+ private:
+  int id;
+  std::string surname;
+  std::string name;
+  std::string patronymic;
+  std::string institute;
+  std::string department;
 
-public:
-    Teacher(int id,
-         const std::string& surname, 
-         const std::string& name,
-         const std::string& patronymic, 
-         const std::string& institute, 
-         const std::string& department) : id(id),
-         surname(surname),
-         name(name),
-         patronymic(patronymic),
-         institute(institute),
-         department(department) {}
-    
-    ~Teacher() = default;
+ public:
+  Teacher(int id, const std::string& surname, const std::string& name,
+          const std::string& patronymic, const std::string& institute,
+          const std::string& department)
+      : id(id),
+        surname(surname),
+        name(name),
+        patronymic(patronymic),
+        institute(institute),
+        department(department) {}
 
-    inline int getId() const { return id; }
+  ~Teacher() = default;
 
-    inline std::string getSurname() const { return surname; }
+  inline int getId() const { return id; }
 
-    inline std::string getName() const { return name; }
+  inline std::string getSurname() const { return surname; }
 
-    inline std::string getPatronymic() const { return patronymic; }
+  inline std::string getName() const { return name; }
 
-    inline std::string getInstitute() const { return institute; }
+  inline std::string getPatronymic() const { return patronymic; }
 
-    inline std::string getDepartment() const { return department; }
+  inline std::string getInstitute() const { return institute; }
 
-    inline std::string getFullName() const {
-        return surname + " " + name + " " + patronymic;
-    }
+  inline std::string getDepartment() const { return department; }
 
-}; // Teacher
+  inline std::string getFullName() const {
+    return surname + " " + name + " " + patronymic;
+  }
 
-} // namespace teacher
+};  // Teacher
+
+}  // namespace teacher

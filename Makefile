@@ -1,3 +1,4 @@
+# Compiler and flags
 CXX := g++
 CXXFLAGS := -std=c++17 -Wall -Wextra -Wpedantic -Iinclude
 LDFLAGS := -lsqlite3
@@ -13,29 +14,26 @@ DOCS_DIR := docs
 DIST_DIR := dist
 TEST_DIR := tests
 
-# Source files
-SOURCES := $(shell find $(SRC_DIR) -name '*.cpp')
-OBJECTS := $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
-
 # Installation paths
 PREFIX := /usr/local
 BIN_DIR := $(PREFIX)/bin
+DESTDIR := # For staged installations
+
+# Source files
+SOURCES := $(shell find $(SRC_DIR) -name '*.cpp')
+OBJECTS := $(SOURCES:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
 # Formatting
 FORMATTER := clang-format
 FORMAT_STYLE := Google
 
-.PHONY: all install uninstall build clean test \
-dist docs dvi gcov_report rebuild format check_format doxygen clean_doxygen
+# GNU standard targets
+.PHONY: all install uninstall install-strip clean distclean \
+maintainer-clean check installcheck dist check-style format \
+docs html pdf dvi gcov_report rebuild TAGS
 
+# Standard build targets
 all: build
-
-install: build
-	install -d $(BIN_DIR)
-	install -m 755 $(BUILD_DIR)/$(TARGET) $(BIN_DIR)
-
-uninstall:
-	rm -f $(BIN_DIR)/$(TARGET)
 
 build: CXXFLAGS += $(RELEASE_FLAGS)
 build: $(BUILD_DIR)/$(TARGET)
@@ -43,54 +41,84 @@ build: $(BUILD_DIR)/$(TARGET)
 debug: CXXFLAGS += $(DEBUG_FLAGS)
 debug: build
 
-$(BUILD_DIR)/$(TARGET): $(OBJECTS)
-	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
+# Installation targets
+install: build
+	install -d $(DESTDIR)$(BIN_DIR)
+	install -m 755 $(BUILD_DIR)/$(TARGET) $(DESTDIR)$(BIN_DIR)/$(TARGET)
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+install-strip: build
+	install -d $(DESTDIR)$(BIN_DIR)
+	install -s -m 755 $(BUILD_DIR)/$(TARGET) $(DESTDIR)$(BIN_DIR)/$(TARGET)
 
+uninstall:
+	rm -f $(DESTDIR)$(BIN_DIR)/$(TARGET)
+
+# Cleanup targets
 clean:
-	rm -rf $(BUILD_DIR) $(DOCS_DIR) $(DIST_DIR) *.gcov *.gcda *.gcno
+	rm -rf $(BUILD_DIR) *.gcov *.gcda *.gcno
 
+distclean: clean
+	rm -rf $(DIST_DIR) $(DOCS_DIR) coverage.info
+
+maintainer-clean: distclean
+	rm -rf aclocal.m4 configure Makefile.in
+
+# Testing targets
+check: test
 test: CXXFLAGS += $(COVERAGE_FLAGS)
 test: LDFLAGS += $(COVERAGE_FLAGS)
 test: build
 	@$(MAKE) -C $(TEST_DIR) run-tests
 
-dist: build
+installcheck: install
+	@echo "Running post-installation checks..."
+	@$(BUILD_DIR)/$(TARGET) --version
+
+# Packaging targets
+dist: distclean
 	@mkdir -p $(DIST_DIR)
-	tar -czvf $(DIST_DIR)/$(TARGET)_$(shell date +%Y%m%d).tar.gz -C $(BUILD_DIR) $(TARGET)
+	tar -czvf $(DIST_DIR)/$(TARGET)_$(shell date +%Y%m%d).tar.gz \
+	--transform "s,^,$(TARGET)/," --exclude=".*" *
 
-docs: doxygen
-
-dvi:
-	@echo "Generating DVI documentation..."
-	@doxygen Doxyfile
-
-gcov_report: test
-	lcov --capture --directory . --output-file coverage.info
-	genhtml coverage.info --output-directory $(DOCS_DIR)/coverage
-	@echo "Coverage report available at $(DOCS_DIR)/coverage/index.html"
-
-rebuild: clean build
-
+# Code formatting targets
 format:
 	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' | xargs $(FORMATTER) -style=$(FORMAT_STYLE) -i
 
-check_format:
-	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' | xargs $(FORMATTER) -style=$(FORMAT_STYLE) -output-replacements-xml | grep -q "<replacement " && echo "Formatting issues found" || echo "Formatting OK"
+check-style:
+	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' | xargs $(FORMATTER) -style=$(FORMAT_STYLE) --dry-run --Werror
 
+# Documentation targets
+docs: doxygen
 doxygen:
 	@mkdir -p $(DOCS_DIR)
 	doxygen Doxyfile
 	@echo "Documentation available at $(DOCS_DIR)/html/index.html"
 
-clean_doxygen:
-	rm -rf $(DOCS_DIR)
+pdf:
+	@cd $(DOCS_DIR)/latex && make pdf
 
+html:
+	@$(MAKE) doxygen
+
+# Coverage report
+gcov_report: test
+	lcov --capture --directory . --output-file coverage.info
+	genhtml coverage.info --output-directory $(DOCS_DIR)/coverage
+	@echo "Coverage report available at $(DOCS_DIR)/coverage/index.html"
+
+# Helper targets
+rebuild: clean build
+
+TAGS:
+	ctags -R .
+
+# Dependency handling
 -include $(OBJECTS:.o=.d)
+
+# Build rules
+$(BUILD_DIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(@D)

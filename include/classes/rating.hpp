@@ -3,26 +3,26 @@
 namespace rating {
 
 class Rating {
-private:
-    int studentId;
-    int entityId;
-    int value;
-    bool isCourse;
-    
-public:
-    Rating(int sid, int eid, int val, bool isCourse)
-        : studentId(sid), entityId(eid), value(val), isCourse(isCourse) {}
-        
-    ~Rating() = default;
+ private:
+  int studentId;
+  int entityId;
+  int value;
+  bool isCourse;
 
-    inline int getStudentId() const { return studentId; }
+ public:
+  Rating(int sid, int eid, int val, bool isCourse)
+      : studentId(sid), entityId(eid), value(val), isCourse(isCourse) {}
 
-    inline int getEntityId() const { return entityId; }
+  ~Rating() = default;
 
-    inline int getValue() const { return value; }
+  inline int getStudentId() const { return studentId; }
 
-    inline bool isCourseRating() const { return isCourse; }
-    
-}; // Rating
+  inline int getEntityId() const { return entityId; }
 
-} // namespace rating
+  inline int getValue() const { return value; }
+
+  inline bool isCourseRating() const { return isCourse; }
+
+};  // Rating
+
+}  // namespace rating

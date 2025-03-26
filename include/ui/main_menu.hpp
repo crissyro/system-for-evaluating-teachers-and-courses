@@ -6,16 +6,16 @@
 namespace menu {
 
 class MainMenu {
-private:
-    database::Database& db;
-    
-public:
-    explicit MainMenu(database::Database& database);
+ private:
+  database::Database& db;
 
-    ~MainMenu() = default;
+ public:
+  explicit MainMenu(database::Database& database);
 
-    void run();
+  ~MainMenu() = default;
 
-}; // class MainMenu
+  void run();
 
-} // namespace menu
+};  // class MainMenu
+
+}  // namespace menu
