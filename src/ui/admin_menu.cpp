@@ -24,11 +24,32 @@ void AdminMenu::showAllRatings() {
 
 void AdminMenu::showStatistics() {
     database::RatingDB ratingDB(db);
-    auto stats = ratingDB.getStatistics();
+    database::CourseDB courseDB(db);
+    database::TeacherDB teacherDB(db);
     
-    std::cout << BOLD << CYAN << "\n=== Статистика ===\n" << RESET
-         << "Средняя оценка курсов: " << stats.avgCourseRating << "/5\n"
-         << "Средняя оценка преподавателей: " << stats.avgTeacherRating << "/5\n";
+    auto stats = ratingDB.getStatistics();
+
+    std::cout << BOLD << CYAN << "\n=== Статистика по курсам ===\n" << RESET;
+    for (const auto& [courseId, avg] : stats.courseStats) {
+        try {
+            auto course = courseDB.getCourse(courseId);
+            std::cout << course.getName() << " (ID: " << courseId 
+                      << "): " << avg << "/5\n";
+        } catch (...) {
+            std::cout << "Курс ID:" << courseId << " (удален): " << avg << "/5\n";
+        }
+    }
+
+    std::cout << BOLD << CYAN << "\n=== Статистика по преподавателям ===\n" << RESET;
+    for (const auto& [teacherId, avg] : stats.teacherStats) {
+        try {
+            auto teacher = teacherDB.getTeacher(teacherId);
+            std::cout << teacher.getFullName() << " (ID: " << teacherId 
+                      << "): " << avg << "/5\n";
+        } catch (...) {
+            std::cout << "Преподаватель ID:" << teacherId << " (удален): " << avg << "/5\n";
+        }
+    }
 }
 
 void AdminMenu::show() {

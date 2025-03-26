@@ -8,6 +8,7 @@ RatingDB::RatingDB(const Database& database) : db(database.getHandle()) {
             student_id INTEGER NOT NULL,
             course_id INTEGER NOT NULL,
             rating INTEGER CHECK(rating BETWEEN 1 AND 5),
+            UNIQUE(student_id, course_id),
             FOREIGN KEY(student_id) REFERENCES students(id),
             FOREIGN KEY(course_id) REFERENCES courses(id)
         );)";
@@ -20,6 +21,7 @@ RatingDB::RatingDB(const Database& database) : db(database.getHandle()) {
             student_id INTEGER NOT NULL,
             teacher_id INTEGER NOT NULL,
             rating INTEGER CHECK(rating BETWEEN 1 AND 5),
+            UNIQUE(student_id, teacher_id),
             FOREIGN KEY(student_id) REFERENCES students(id),
             FOREIGN KEY(teacher_id) REFERENCES teachers(id)
         );)";
@@ -39,20 +41,48 @@ bool RatingDB::addTeacherRating(int studentId, int teacherId, int rating) {
     return sqlite3_step(stmt) == SQLITE_DONE;
 }
 
-RatingDB::Statistics RatingDB::getStatistics() {
-    Statistics stats{};
-    
-    const char* sql = R"(
-        SELECT 
-            (SELECT AVG(rating) FROM course_ratings),
-            (SELECT AVG(rating) FROM teacher_ratings)
-    )";
+bool RatingDB::hasExistingRating(int studentId, int entityId, bool isCourse) {
+    const char* sql;
+    if (isCourse) {
+        sql = "SELECT 1 FROM course_ratings WHERE student_id = ? AND course_id = ?;";
+    } else {
+        sql = "SELECT 1 FROM teacher_ratings WHERE student_id = ? AND teacher_id = ?;";
+    }
     
     Database::Statement stmt(db, sql);
+    stmt.bind(1, studentId);
+    stmt.bind(2, entityId);
+    
+    return sqlite3_step(stmt) == SQLITE_ROW;
+}
 
-    if(sqlite3_step(stmt) == SQLITE_ROW) {
-        stats.avgCourseRating = sqlite3_column_double(stmt, 0);
-        stats.avgTeacherRating = sqlite3_column_double(stmt, 1);
+RatingDB::Statistics RatingDB::getStatistics() {
+    Statistics stats;
+
+    const char* course_sql = R"(
+        SELECT course_id, AVG(rating) 
+        FROM course_ratings 
+        GROUP BY course_id;)";
+
+    Database::Statement course_stmt(db, course_sql);
+    while (sqlite3_step(course_stmt) == SQLITE_ROW) {
+        stats.courseStats.emplace_back(
+            sqlite3_column_int(course_stmt, 0),
+            sqlite3_column_double(course_stmt, 1)
+        );
+    }
+
+    const char* teacher_sql = R"(
+        SELECT teacher_id, AVG(rating) 
+        FROM teacher_ratings 
+        GROUP BY teacher_id;)";
+
+    Database::Statement teacher_stmt(db, teacher_sql);
+    while (sqlite3_step(teacher_stmt) == SQLITE_ROW) {
+        stats.teacherStats.emplace_back(
+            sqlite3_column_int(teacher_stmt, 0),
+            sqlite3_column_double(teacher_stmt, 1)
+        );
     }
 
     return stats;
@@ -125,7 +155,10 @@ RatingDB::getStudentRatings(int studentId) {
 }
 
 bool RatingDB::addCourseRating(int studentId, int courseId, int rating) {
-    const char* sql = "INSERT INTO course_ratings VALUES (?, ?, ?);";
+    const char* sql = R"(
+        INSERT OR REPLACE INTO course_ratings 
+        (student_id, course_id, rating) 
+        VALUES (?, ?, ?);)";
 
     Database::Statement stmt(db, sql);
     stmt.bind(1, studentId);

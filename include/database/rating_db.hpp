@@ -13,8 +13,8 @@ private:
     
 public:
     struct Statistics {
-        double avgCourseRating;
-        double avgTeacherRating;
+        std::vector<std::pair<int, double>> courseStats;  // <course_id, avg_rating>
+        std::vector<std::pair<int, double>> teacherStats; // <teacher_id, avg_rating>
     };
 
     explicit RatingDB(const Database& database);
@@ -28,6 +28,8 @@ public:
     std::vector<rating::Rating> getAllRatings();
 
     Statistics getStatistics();
+
+    bool hasExistingRating(int studentId, int entityId, bool isCourse);
 
     std::vector<std::pair<int, int>> getCourseRatings(int studentId);
 

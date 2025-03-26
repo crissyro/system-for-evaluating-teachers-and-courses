@@ -17,34 +17,32 @@ void StudentMenu::printHeader(const std::string& title) {
 
 void StudentMenu::rateCourse() {
     printHeader("Оценка курса");
-
     database::CourseDB courseDB(db);
     auto courses = courseDB.getAllCourses();
-
-    std::cout << YELLOW << "Доступные курсы:\n" << RESET;
 
     for (const auto& course : courses) {
         std::cout << course.getId() << ". " << course.getName() << "\n";
     }
 
     int courseId, rating;
-
     std::cout << "ID курса: ";
     std::cin >> courseId;
 
+    database::RatingDB ratingDB(db);
+    bool hasExistingRating = ratingDB.hasExistingRating(studentId, courseId, true);
+
     std::cout << "Оценка (1-5): ";
     std::cin >> rating;
-
-    std::cin.ignore();
 
     if (rating < 1 || rating > 5) {
         std::cout << RED << "Некорректная оценка!\n" << RESET;
         return;
     }
 
-    database::RatingDB ratingDB(db);
     if (ratingDB.addCourseRating(studentId, courseId, rating)) {
-        std::cout << GREEN << "Оценка добавлена!\n" << RESET;
+        std::cout << GREEN << "Оценка " 
+                  << (hasExistingRating ? "обновлена" : "добавлена") 
+                  << "!\n" << RESET;
     } else {
         std::cout << RED << "Ошибка!\n" << RESET;
     }
@@ -52,32 +50,32 @@ void StudentMenu::rateCourse() {
 
 void StudentMenu::rateTeacher() {
     printHeader("Оценка преподавателя");
-
     database::TeacherDB teacherDB(db);
     auto teachers = teacherDB.getAllTeachers();
 
-    std::cout << YELLOW << "Доступные преподаватели:\n" << RESET;
-    for (const auto& t : teachers) {
-        std::cout << t.getId() << ". " << t.getFullName() << "\n";
+    for (const auto& teacher : teachers) {
+        std::cout << teacher.getId() << ". " << teacher.getFullName() << "\n";
     }
 
     int teacherId, rating;
     std::cout << "ID преподавателя: ";
     std::cin >> teacherId;
 
+    database::RatingDB ratingDB(db);
+    bool hasExistingRating = ratingDB.hasExistingRating(studentId, teacherId, false);
+
     std::cout << "Оценка (1-5): ";
     std::cin >> rating;
-
-    std::cin.ignore();
 
     if (rating < 1 || rating > 5) {
         std::cout << RED << "Некорректная оценка!\n" << RESET;
         return;
     }
 
-    database::RatingDB ratingDB(db);
     if (ratingDB.addTeacherRating(studentId, teacherId, rating)) {
-        std::cout << GREEN << "Оценка добавлена!\n" << RESET;
+        std::cout << GREEN << "Оценка " 
+                  << (hasExistingRating ? "обновлена" : "добавлена") 
+                  << "!\n" << RESET;
     } else {
         std::cout << RED << "Ошибка!\n" << RESET;
     }
