@@ -1,0 +1,164 @@
+@startuml
+
+'#########################################
+' Классы сущностей (Entities)
+'#########################################
+
+class Course {
+  - id: int
+  - name: string
+  - institute: string
+  + Course(id: int, name: string, institute: string)
+  + getId(): int
+  + getName(): string
+  + getInstitute(): string
+}
+
+class Rating {
+  - studentId: int
+  - entityId: int
+  - value: int
+  - isCourse: bool
+  + Rating(sid: int, eid: int, val: int, isCourse: bool)
+  + getStudentId(): int
+  + getEntityId(): int
+  + getValue(): int
+  + isCourseRating(): bool
+}
+
+class Student {
+  - id: int
+  - surname: string
+  - name: string
+  - patronymic: string
+  - institute: string
+  - department: string
+  - course: int
+  - group: string
+  - recordBook: string
+  + Student(...)
+  + getId(): int
+  + getFullName(): string
+  + ... другие геттеры ...
+}
+
+class Teacher {
+  - id: int
+  - surname: string
+  - name: string
+  - patronymic: string
+  - institute: string
+  - department: string
+  + Teacher(...)
+  + getId(): int
+  + getFullName(): string
+  + ... другие геттеры ...
+}
+
+'#########################################
+' Классы работы с БД (Database)
+'#########################################
+
+class Database {
+  - db: sqlite3*
+  + Statement
+  + Transaction
+  + getHandle(): sqlite3*
+}
+
+class CourseDB {
+  - db: sqlite3*
+  + addCourse(c: Course): int
+  + getCourse(id: int): Course
+  + exists(id: int): bool
+  + getAllCourses(): vector<Course>
+  + addTeacherToCourse(courseId: int, teacherId: int)  ' НОВОЕ!
+}
+
+class RatingDB {
+  - db: sqlite3*
+  + addCourseRating(sid: int, cid: int, val: int): bool
+  + addTeacherRating(sid: int, tid: int, val: int): bool  ' НОВОЕ!
+  + getAllRatings(): vector<Rating>
+  + getStatistics(): Statistics
+}
+
+class StudentDB {
+  - db: sqlite3*
+  + addStudent(s: Student): int
+  + exists(recordBook: string): bool
+  + getStudentIdByRecordBook(recordBook: string): int
+}
+
+class TeacherDB {  
+  - db: sqlite3*
+  + addTeacher(t: Teacher): int
+  + exists(id: int): bool
+  + getAllTeachers(): vector<Teacher>
+}
+
+class AdminDB {
+  - db: sqlite3*
+  + addAdmin(username: string): bool
+  + checkCredentials(username: string, password: string): bool
+}
+
+'#########################################
+' UI-Меню
+'#########################################
+
+class AdminMenu {
+  - db: Database&
+  + show()
+  + showAllRatings()
+  + showStatistics()
+  + addCourse() 
+  + addTeacher() 
+}
+
+class StudentMenu {
+  - db: Database&
+  - studentId: int
+  + show()
+  + rateCourse()
+  + rateTeacher()  
+  + viewRatings()
+}
+
+class MainMenu {
+  - db: Database&
+  + run()
+}
+
+'#########################################
+' Связи между классами 
+'#########################################
+
+CourseDB --> Database : uses
+RatingDB --> Database : uses
+StudentDB --> Database : uses
+AdminDB --> Database : uses
+TeacherDB --> Database : uses  
+
+CourseDB --> Course : creates/manages
+RatingDB --> Rating : creates/manages
+StudentDB --> Student : creates/manages
+TeacherDB --> Teacher : creates/manages  
+AdminDB --> Admin : creates/manages
+
+AdminMenu --> CourseDB : depends
+AdminMenu --> RatingDB : depends
+AdminMenu --> StudentDB : depends
+AdminMenu --> TeacherDB : depends  
+
+StudentMenu --> RatingDB : depends
+StudentMenu --> CourseDB : depends
+StudentMenu --> TeacherDB : depends  
+
+CourseDB --> TeacherDB : "link teachers"  
+RatingDB --> Teacher : "rate" 
+
+MainMenu --> AdminMenu : navigates
+MainMenu --> StudentMenu : navigates
+
+@enduml

@@ -22,7 +22,7 @@ jobs:
       run: make
         
     - name: Check code style
-      run: make check-format
+      run: make check-style
 
   clang-format-check:
     runs-on: ubuntu-latest
