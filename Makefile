@@ -223,11 +223,11 @@ dist: distclean
 
 ## @brief Автоматическое форматирование кода
 format:
-	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' | xargs $(FORMATTER) -style=$(FORMAT_STYLE) -i
+	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' -exec clang-format -i {} \;
 
 ## @brief Проверка стиля кода
 check-style:
-	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp' | xargs $(FORMATTER) -style=$(FORMAT_STYLE) --dry-run --Werror
+	find $(SRC_DIR) include -name '*.hpp' -o -name '*.cpp'  -exec clang-format --dry-run --Werror {} \;
 
 ## @}
 

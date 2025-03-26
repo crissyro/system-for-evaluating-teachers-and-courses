@@ -1,0 +1,7 @@
+---
+BasedOnStyle: Google
+AllowShortFunctionsOnASingleLine: Empty
+AlignAfterOpenBracket: Align
+BreakBeforeBraces: Allman
+ColumnLimit: 120
+IndentWidth: 4
