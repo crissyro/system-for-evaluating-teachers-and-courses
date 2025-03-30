@@ -16,13 +16,27 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y g++ make sqlite3 libsqlite3-dev clang-format
+        sudo apt-get install -y g++ make sqlite3 libsqlite3-dev clang-format libgtest-dev
 
     - name: Build project
       run: make
         
     - name: Check code style
       run: make check-style
+
+    - name: Run tests
+      run: make test
+
+    - name: Generate coverage report
+      run: |
+        make gcov_report
+        echo "Coverage report available in report/coverage/index.html"
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: report/coverage
 
   clang-format-check:
     runs-on: ubuntu-latest
