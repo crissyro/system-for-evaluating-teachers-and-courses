@@ -1,5 +1,4 @@
 @startuml
-
 '#########################################
 ' Классы сущностей (Entities)
 '#########################################
@@ -83,13 +82,13 @@ class CourseDB {
   + getCourse(id: int): Course
   + exists(id: int): bool
   + getAllCourses(): vector<Course>
-  + addTeacherToCourse(courseId: int, teacherId: int)  ' НОВОЕ!
+  + addTeacherToCourse(courseId: int, teacherId: int)
 }
 
 class RatingDB {
   - db: sqlite3*
   + addCourseRating(sid: int, cid: int, val: int): bool
-  + addTeacherRating(sid: int, tid: int, val: int): bool  ' НОВОЕ!
+  + addTeacherRating(sid: int, tid: int, val: int): bool
   + getAllRatings(): vector<Rating>
   + getStatistics(): Statistics
 }
@@ -154,6 +153,45 @@ class DatabaseTest {
   + TransactionRollback()
 }
 
+class AdminDBTest {
+  - db: Database*
+  - adminDB: AdminDB*
+  + TestAddAdmin()
+  + TestCredentials()
+  + TestDuplicateAdmin()
+}
+
+class CourseDBTest {
+  - db: Database*
+  - courseDB: CourseDB*
+  + TestAddCourse()
+  + TestGetCourse()
+  + TestCourseExists()
+}
+
+class RatingDBTest {
+  - db: Database*
+  - ratingDB: RatingDB*
+  + TestAddRating()
+  + TestDuplicateRating()
+  + TestStatistics()
+}
+
+class StudentDBTest {
+  - db: Database*
+  - studentDB: StudentDB*
+  + TestAddStudent()
+  + TestStudentExists()
+  + TestGetStudentId()
+}
+
+class TeacherDBTest {
+  - db: Database*
+  - teacherDB: TeacherDB*
+  + TestAddTeacher()
+  + TestGetTeachers()
+}
+
 '#########################################
 ' Связи между классами 
 '#########################################
@@ -161,9 +199,15 @@ class DatabaseTest {
 Database::Statement -[hidden]-> Database
 Database::Transaction -[hidden]-> Database
 
-DatabaseTest --> Database : tests
-DatabaseTest --> Database::Statement : tests
-DatabaseTest --> Database::Transaction : tests
+DatabaseTest --> Database 
+DatabaseTest --> Database::Statement 
+DatabaseTest --> Database::Transaction 
+
+AdminDBTest --> AdminDB 
+CourseDBTest --> CourseDB 
+RatingDBTest --> RatingDB 
+StudentDBTest --> StudentDB 
+TeacherDBTest --> TeacherDB 
 
 CourseDB --> Database : uses
 RatingDB --> Database : uses
@@ -190,5 +234,4 @@ RatingDB --> Teacher : "rate"
 
 MainMenu --> AdminMenu : navigates
 MainMenu --> StudentMenu : navigates
-
 @enduml
