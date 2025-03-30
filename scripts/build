@@ -15,7 +15,6 @@ header() {
 }
 
 check_dependencies() {
-    cd .. 
     local deps=("g++" "make" "sqlite3" "clang-format")
     for dep in "${deps[@]}"; do
         if ! command -v $dep &> /dev/null; then
