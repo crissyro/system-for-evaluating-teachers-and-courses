@@ -70,7 +70,7 @@ uninstall:
 	rm -rf $(BIN_DIR)
 
 clean:
-	rm -rf $(BUILD_DIR) *.gcov *.gcda *.gcno $(TEST_DB)
+	rm -rf $(BUILD_DIR) *.gcov *.gcda *.gcno $(TEST_DB) $(REPORT_DIR) 
 	rm university.db
 
 distclean: clean
