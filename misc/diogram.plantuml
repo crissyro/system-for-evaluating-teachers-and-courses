@@ -66,6 +66,17 @@ class Database {
   + getHandle(): sqlite3*
 }
 
+class Database::Statement {
+  - stmt: sqlite3_stmt*
+  + bind(idx: int, value: string|int)
+}
+
+class Database::Transaction {
+  - db: sqlite3*
+  + commit(): void
+  + rollback(): void
+}
+
 class CourseDB {
   - db: sqlite3*
   + addCourse(c: Course): int
@@ -131,8 +142,28 @@ class MainMenu {
 }
 
 '#########################################
+' Тестовые классы
+'#########################################
+
+class DatabaseTest {
+  - db: Database*
+  + SetUp()
+  + TearDown()
+  + StatementBasic()
+  + TransactionCommit()
+  + TransactionRollback()
+}
+
+'#########################################
 ' Связи между классами 
 '#########################################
+
+Database::Statement -[hidden]-> Database
+Database::Transaction -[hidden]-> Database
+
+DatabaseTest --> Database : tests
+DatabaseTest --> Database::Statement : tests
+DatabaseTest --> Database::Transaction : tests
 
 CourseDB --> Database : uses
 RatingDB --> Database : uses
