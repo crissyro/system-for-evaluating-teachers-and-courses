@@ -1,7 +1,7 @@
 
 # Changelog
 
-All notable changes to this project will be documented here.
+All notable changes to this project follow [Keep a Changelog](https://keepachangelog.com) standards.
 
 ## [Unreleased]
 - Planned improvements and features.
