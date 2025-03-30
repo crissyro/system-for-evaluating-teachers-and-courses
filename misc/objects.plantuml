@@ -1,0 +1,100 @@
+@startuml
+
+'#########################################
+' Основные объекты приложения
+'#########################################
+
+object mainApp {
+  Запуск приложения
+  Инициализация БД
+}
+
+object adminMenu {
+  Показ меню администратора
+  Управление курсами
+  Просмотр статистики
+}
+
+object studentMenu {
+  Оценка курсов
+  Просмотр рейтингов
+}
+
+object dbConnection {
+  Соединение с SQLite
+  Выполнение запросов
+}
+
+'#########################################
+' Объекты базы данных
+'#########################################
+
+object courseDB {
+  Таблица courses
+  Добавление курсов
+  Получение информации
+}
+
+object ratingDB {
+  Таблицы course_ratings
+  и teacher_ratings
+  Расчет статистики
+}
+
+object studentDB {
+  Таблица students
+  Регистрация студентов
+}
+
+object teacherDB {
+  Таблица teachers
+  Управление преподавателями
+}
+
+'#########################################
+' Взаимодействия
+'#########################################
+
+mainApp --> dbConnection : использует
+mainApp --> adminMenu : создает
+mainApp --> studentMenu : создает
+
+adminMenu --> courseDB : управляет
+adminMenu --> teacherDB : управляет
+adminMenu --> ratingDB : запрашивает статистику
+
+studentMenu --> ratingDB : добавляет оценки
+studentMenu --> courseDB : получает список курсов
+
+courseDB --> dbConnection : выполняет запросы
+ratingDB --> dbConnection : выполняет запросы
+
+studentDB --> dbConnection : выполняет запросы
+teacherDB --> dbConnection : выполняет запросы
+
+'#########################################
+' Примеры экземпляров данных
+'#########################################
+
+object mathCourse {
+  id = 101
+  name = "ООП"
+  institute = "ПОВТАС"
+}
+
+object studentIvan {
+  id = 1001
+  name = "Иван Иванов"
+  group = "ПВ-233"
+}
+
+object ratingExample {
+  studentId = 1001
+  courseId = 101
+  value = 5
+}
+
+ratingDB --> mathCourse : хранит оценки
+ratingDB --> studentIvan : связывает со оценками
+
+@enduml
