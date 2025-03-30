@@ -3,7 +3,7 @@
 ![CI/CD](https://github.com/crissyro/system-for-evaluating-teachers-and-courses/workflows/C++%20CI/CD/badge.svg)
 ![C++17](https://img.shields.io/badge/C++-17-blue.svg)
 ![SQLite](https://img.shields.io/badge/SQLite-3.35+-green.svg)
-![License](https://img.shields.io/github/license/crissyro/system-for-evaluating-teachers-and-courses.git)
+![License](https://img.shields.io/github/license/crissyro/system-for-evaluating-teachers-and-courses)
 ![Contributions](https://img.shields.io/badge/contributions-welcome-brightgreen)
 
 A comprehensive system for rating university courses and teachers with secure database management and modern C++ features.
