@@ -175,7 +175,6 @@ CourseDB --> Course : creates/manages
 RatingDB --> Rating : creates/manages
 StudentDB --> Student : creates/manages
 TeacherDB --> Teacher : creates/manages  
-AdminDB --> Admin : creates/manages
 
 AdminMenu --> CourseDB : depends
 AdminMenu --> RatingDB : depends
