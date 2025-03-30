@@ -70,8 +70,13 @@ uninstall:
 	rm -rf $(BIN_DIR)
 
 clean:
-	rm -rf $(BUILD_DIR) *.gcov *.gcda *.gcno $(TEST_DB) $(REPORT_DIR) 
-	rm university.db
+	rm -rf $(BUILD_DIR) *.gcov *.gcda *.gcno $(TEST_DB) $(REPORT_DIR)
+	@if [ -f university.db ]; then \
+		echo "Removing existing database..."; \
+		rm university.db; \
+	else \
+		echo "Database file not found, skipping..."; \
+	fi
 
 distclean: clean
 	rm -rf $(DIST_DIR) $(DOCS_DIR) coverage.info
