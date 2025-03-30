@@ -29,6 +29,7 @@ jobs:
 
     - name: Generate coverage report
       run: |
+        make clean
         make gcov_report
         echo "Coverage report available in report/coverage/index.html"
 
