@@ -32,12 +32,6 @@ jobs:
         make gcov_report
         echo "Coverage report available in report/coverage/index.html"
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: report/coverage
-
   clang-format-check:
     runs-on: ubuntu-latest
     steps:
