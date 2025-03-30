@@ -63,4 +63,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-© 2024 University Rating System Team  
+© 2024 Roman Moroz
