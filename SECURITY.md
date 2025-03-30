@@ -2,20 +2,36 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+We take security seriously and provide updates for recent versions of the project. 
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version | Status              | Support Until     |
+|---------|---------------------|-------------------|
+| 1.0.x   | :white_check_mark:  | March 2025     |
 
-## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+- :white_check_mark: Actively supported
+- :warning: Security fixes only
+- :x: Unsupported
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+## Reporting Vulnerabilities
+
+**Responsible Disclosure Process:**
+1. Email security issues to: security@university-rating.org
+2. Include:
+   - Project version
+   - Vulnerability description
+   - Steps to reproduce
+   - Possible impact
+
+**Response SLA:**
+- Initial response within 72 hours
+- Critical fixes within 14 days
+- Public disclosure coordinated with reporter
+
+**Rewards:**  
+We offer bounties for valid security reports through our Bugcrowd program.
+
+## Security Updates
+- Subscribe to security advisories:  
+  [GitHub Watch → Releases Only](https://github.com/system-for-evaluating-teachers-and-courses/subscription)
+- Always verify PGP signatures on releases
