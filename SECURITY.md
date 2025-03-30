@@ -16,7 +16,7 @@ We take security seriously and provide updates for recent versions of the projec
 ## Reporting Vulnerabilities
 
 **Responsible Disclosure Process:**
-1. Email security issues to: security@university-rating.org
+1. Email security issues to: morozdef24@gmail.com
 2. Include:
    - Project version
    - Vulnerability description
@@ -33,5 +33,5 @@ We offer bounties for valid security reports through our Bugcrowd program.
 
 ## Security Updates
 - Subscribe to security advisories:  
-  [GitHub Watch → Releases Only](https://github.com/system-for-evaluating-teachers-and-courses/subscription)
+  [GitHub Watch → Releases Only](https://github.com/crissyro/system-for-evaluating-teachers-and-courses/subscription)
 - Always verify PGP signatures on releases
