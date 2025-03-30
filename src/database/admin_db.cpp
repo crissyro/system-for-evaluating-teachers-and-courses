@@ -33,11 +33,10 @@ bool AdminDB::adminExists(const std::string& username) {
 }
 
 bool AdminDB::addAdmin(const std::string& username) {
-    const char* sql = "INSERT INTO admins (username, password) VALUES (?, admin123);";
-
+    const char* sql = "INSERT INTO admins (username, password) VALUES (?, ?);";
     Database::Statement stmt(db, sql);
     stmt.bind(1, username);
-
+    stmt.bind(2, "admin123");
     return sqlite3_step(stmt) == SQLITE_DONE;
 }
 
