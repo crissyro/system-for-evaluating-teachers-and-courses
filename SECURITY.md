@@ -6,7 +6,8 @@ We take security seriously and provide updates for recent versions of the projec
 
 | Version | Status              | Support Until     |
 |---------|---------------------|-------------------|
-| 1.0.x   | :white_check_mark:  | March 2025     |
+| 1.0.1   | :white_check_mark:  | March 2025     |
+| 1.0.x   | :warning:  | March 2025     |
 
 
 - :white_check_mark: Actively supported
