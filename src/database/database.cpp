@@ -17,6 +17,11 @@ Database::~Database() {
     sqlite3_close(db);
 }
 
+Database& Database::getInstance() {
+    static Database instance;
+    return instance;
+}
+
 Database::Statement::Statement(sqlite3* db, const char* sql) {
     if (sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr) != SQLITE_OK) {
         throw std::runtime_error(sqlite3_errmsg(db));

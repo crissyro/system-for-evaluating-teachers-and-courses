@@ -34,6 +34,11 @@ class Database {
   /// @brief Деструктор, закрывающий соединение
   ~Database();
 
+  Database(const Database&) = delete;
+  Database& operator=(const Database&) = delete;
+  Database(Database&&) = delete;
+  Database& operator=(Database&&) = delete;
+
   /**
    * @class Statement
    * @brief Подготовленный SQL-запрос
@@ -92,6 +97,8 @@ class Database {
     void rollback();
 
   };  // class Transaction
+
+  static Database& getInstance();
 
   /**
    * @brief Получить низкоуровневый дескриптор БД
