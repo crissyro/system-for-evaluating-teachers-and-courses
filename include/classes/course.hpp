@@ -31,8 +31,7 @@ class Course {
    * @param name Название курса (непустая строка)
    * @param institute Название института (непустая строка)
    */
-  Course(int id, const std::string& name, const std::string& institute)
-      : id(id), name(name), institute(institute) {}
+  Course(int id, const std::string& name, const std::string& institute);
 
   /// @brief Виртуальный деструктор по умолчанию
   ~Course() = default;
@@ -41,19 +40,19 @@ class Course {
    * @brief Получить идентификатор курса
    * @return Целочисленный уникальный идентификатор
    */
-  inline int getId() const { return id; }
+  inline int getId() const;
 
   /**
    * @brief Получить название курса
    * @return Константная ссылка на строку с названием
    */
-  inline const std::string& getName() const { return name; }
+  inline const std::string& getName() const;
 
   /**
    * @brief Получить название института
    * @return Константная ссылка на строку с институтом
    */
-  inline const std::string& getInstitute() const { return institute; }
+  inline const std::string& getInstitute() const;
 
 };  // class Course
 

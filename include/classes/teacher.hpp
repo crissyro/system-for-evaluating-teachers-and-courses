@@ -39,34 +39,26 @@ class Teacher {
    */
   Teacher(int id, const std::string& surname, const std::string& name,
           const std::string& patronymic, const std::string& institute,
-          const std::string& department)
-      : id(id),
-        surname(surname),
-        name(name),
-        patronymic(patronymic),
-        institute(institute),
-        department(department) {}
+          const std::string& department);
 
   /// @brief Деструктор по умолчанию
   ~Teacher() = default;
 
   /// @name Геттеры
   /// @{
-  inline int getId() const { return id; }
-  inline std::string getSurname() const { return surname; }
-  inline std::string getName() const { return name; }
-  inline std::string getPatronymic() const { return patronymic; }
-  inline std::string getInstitute() const { return institute; }
-  inline std::string getDepartment() const { return department; }
+  inline int getId() const;
+  inline std::string getSurname() const;
+  inline std::string getName() const;
+  inline std::string getPatronymic() const;
+  inline std::string getInstitute() const;
+  inline std::string getDepartment() const;
   /// @}
 
   /**
    * @brief Получить полное имя
    * @return Строка формата "Фамилия Имя Отчество"
    */
-  inline std::string getFullName() const {
-    return surname + " " + name + " " + patronymic;
-  }
+  inline std::string getFullName() const;
 
 };  // class Teacher
 

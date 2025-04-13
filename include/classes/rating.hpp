@@ -33,8 +33,7 @@ class Rating {
    * @param val Значение оценки
    * @param isCourse Флаг типа оценки
    */
-  Rating(int sid, int eid, int val, bool isCourse)
-      : studentId(sid), entityId(eid), value(val), isCourse(isCourse) {}
+  Rating(int sid, int eid, int val, bool isCourse);
 
   /// @brief Деструктор по умолчанию
   ~Rating() = default;
@@ -43,25 +42,25 @@ class Rating {
    * @brief Получить ID студента
    * @return Целочисленный ID студента
    */
-  inline int getStudentId() const { return studentId; }
+  inline int getStudentId() const;
 
   /**
    * @brief Получить ID сущности
    * @return Целочисленный ID курса/преподавателя
    */
-  inline int getEntityId() const { return entityId; }
+  inline int getEntityId() const;
 
   /**
    * @brief Получить значение оценки
    * @return Оценка в диапазоне 1-5
    */
-  inline int getValue() const { return value; }
+  inline int getValue() const;
 
   /**
    * @brief Проверка типа оценки
    * @return true - оценка за курс, false - за преподавателя
    */
-  inline bool isCourseRating() const { return isCourse; }
+  inline bool isCourseRating() const;
 
 };  // class Rating
 
