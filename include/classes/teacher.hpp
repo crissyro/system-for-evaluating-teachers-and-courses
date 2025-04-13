@@ -46,19 +46,19 @@ class Teacher {
 
   /// @name Геттеры
   /// @{
-  inline int getId() const;
-  inline std::string getSurname() const;
-  inline std::string getName() const;
-  inline std::string getPatronymic() const;
-  inline std::string getInstitute() const;
-  inline std::string getDepartment() const;
+  int getId() const;
+  std::string getSurname() const;
+  std::string getName() const;
+  std::string getPatronymic() const;
+  std::string getInstitute() const;
+  std::string getDepartment() const;
   /// @}
 
   /**
    * @brief Получить полное имя
    * @return Строка формата "Фамилия Имя Отчество"
    */
-  inline std::string getFullName() const;
+  std::string getFullName() const;
 
 };  // class Teacher
 

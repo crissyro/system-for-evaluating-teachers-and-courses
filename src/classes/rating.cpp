@@ -5,19 +5,19 @@ namespace rating {
 Rating::Rating(int sid, int eid, int val, bool isCourse)
     : studentId(sid), entityId(eid), value(val), isCourse(isCourse) {}
 
-inline int Rating::getStudentId() const {
+int Rating::getStudentId() const {
     return studentId;
 }
 
-inline int Rating::getEntityId() const {
+int Rating::getEntityId() const {
     return entityId;
 }
 
-inline int Rating::getValue() const {
+int Rating::getValue() const {
     return value;
 }
 
-inline bool Rating::isCourseRating() const {
+bool Rating::isCourseRating() const {
     return isCourse;
 }
 

@@ -28,43 +28,43 @@ Student::Student(int id, const std::string& surname, const std::string& name, co
       group(group),
       recordBook(recordBook) {}
 
-inline int Student::getId() const {
+int Student::getId() const {
     return id;
 }
 
-inline std::string Student::getSurname() const {
+std::string Student::getSurname() const {
     return surname;
 }
 
-inline std::string Student::getName() const {
+std::string Student::getName() const {
     return name;
 }
 
-inline std::string Student::getPatronymic() const {
+std::string Student::getPatronymic() const {
     return patronymic;
 }
 
-inline std::string Student::getInstitute() const {
+std::string Student::getInstitute() const {
     return institute;
 }
 
-inline std::string Student::getDepartment() const {
+std::string Student::getDepartment() const {
     return department;
 }
 
-inline int Student::getCourse() const {
+int Student::getCourse() const {
     return course;
 }
 
-inline std::string Student::getGroup() const {
+std::string Student::getGroup() const {
     return group;
 }
 
-inline std::string Student::getRecordBook() const {
+std::string Student::getRecordBook() const {
     return recordBook;
 }
 
-inline std::string Student::getFullName() const {
+std::string Student::getFullName() const {
     return surname + " " + name + " " + patronymic;
 }
 

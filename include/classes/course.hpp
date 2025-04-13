@@ -40,19 +40,19 @@ class Course {
    * @brief Получить идентификатор курса
    * @return Целочисленный уникальный идентификатор
    */
-  inline int getId() const;
+  int getId() const;
 
   /**
    * @brief Получить название курса
    * @return Константная ссылка на строку с названием
    */
-  inline const std::string& getName() const;
+  const std::string& getName() const;
 
   /**
    * @brief Получить название института
    * @return Константная ссылка на строку с институтом
    */
-  inline const std::string& getInstitute() const;
+  const std::string& getInstitute() const;
 
 };  // class Course
 

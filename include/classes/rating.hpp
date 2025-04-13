@@ -42,25 +42,25 @@ class Rating {
    * @brief Получить ID студента
    * @return Целочисленный ID студента
    */
-  inline int getStudentId() const;
+  int getStudentId() const;
 
   /**
    * @brief Получить ID сущности
    * @return Целочисленный ID курса/преподавателя
    */
-  inline int getEntityId() const;
+  int getEntityId() const;
 
   /**
    * @brief Получить значение оценки
    * @return Оценка в диапазоне 1-5
    */
-  inline int getValue() const;
+  int getValue() const;
 
   /**
    * @brief Проверка типа оценки
    * @return true - оценка за курс, false - за преподавателя
    */
-  inline bool isCourseRating() const;
+  bool isCourseRating() const;
 
 };  // class Rating
 
