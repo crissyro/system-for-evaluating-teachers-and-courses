@@ -54,7 +54,7 @@ Please read our [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes. Ke
 
 - Follow C++ Core Guidelines  
 - Include unit tests  
-- Maintain 80%+ code coverage  
+- Maintain 50%+ code coverage  
 - Use conventional commits  
 
 ## ⚖ License  
@@ -63,4 +63,4 @@ MIT License - See [LICENSE](LICENSE) for details.
 
 ---
 
-© 2024 Roman Moroz
+© 2025 Roman Moroz
